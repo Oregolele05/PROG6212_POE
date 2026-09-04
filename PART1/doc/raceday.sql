@@ -100,16 +100,16 @@ INSERT INTO Categories(categoryAge, categoryDistance, eventID) VALUES
 (50, '15KM', 3);
 
 INSERT INTO EventEnrollment (eventID, participantID, categoryID) VALUES
-(1, 3, 1),
+(1, 1, 1),
 (1, 2, 2),
-(2, 3, 4),
+(2, 1, 4),
 (2, 2, 5),
-(3, 3, 7),
+(3, 1, 7),
 (3, 2, 8);
 
-INSERT INTO Results(participantTime, participantID, participantPosition) VALUES
-('00:52:35', 3, '1'),
-('00:58:12', 2, '2');
+INSERT INTO Results(participantTime, participantID, participantPosition, eventID) VALUES
+('00:52:35', 1, '1', 1),
+('00:58:12', 2, '2', 1);
 
   
 SELECT * FROM Organiser;
