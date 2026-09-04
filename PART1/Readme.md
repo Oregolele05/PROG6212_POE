@@ -19,6 +19,10 @@ RaceDay is a comprehensive, modern race management web platform designed to stre
 * **Participant Roster Oversight:** Review enrolled participant rosters and export data.
 * **Result Capturing:** Capture official finish times and positions for participants to automatically update live leaderboards.
 
+* youtube link: https://youtu.be/t4fYEFbenOM
+
 * <img width="1296" height="330" alt="image" src="https://github.com/user-attachments/assets/b922038d-60a7-43f9-abda-178e44a8765a" />
+
+
 
 
