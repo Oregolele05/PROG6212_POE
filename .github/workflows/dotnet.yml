@@ -20,12 +20,12 @@ jobs:
         
     - name: Restore dependencies
       run: dotnet restore
-      working-directory: ./Part2
+      working-directory: ./PART2
       
     - name: Build
       run: dotnet build --no-restore
-      working-directory: ./Part2
+      working-directory: ./PART2
       
     - name: Test
       run: dotnet test --no-build --verbosity normal
-      working-directory: ./Part2
+      working-directory: ./PART2
