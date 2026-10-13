@@ -21,6 +21,12 @@ namespace RaceDay.Controllers
         }
 
         // GET: api/events
+        /// <summary>
+        /// Retrieves all upcoming race events. Public access.
+        /// </summary>
+        /// <returns>200 OK with a list of all events.</returns>
+        [ProducesResponseType(StatusCodes.Status200OK)]
+        [ProducesResponseType(StatusCodes.Status500InternalServerError)]
         [HttpGet]
         public async Task<IActionResult> GetAllEvents()
         {
@@ -37,6 +43,14 @@ namespace RaceDay.Controllers
         }
 
         // GET: api/events/{id}
+        /// <summary>
+        /// Retrieves a single event by its ID. Public access.
+        /// </summary>
+        /// <param name="id">The unique EventID of the race.</param>
+        /// <returns>200 OK with event details, 404 Not Found if the event doesn't exist.</returns>
+        [ProducesResponseType(StatusCodes.Status200OK)]
+        [ProducesResponseType(StatusCodes.Status404NotFound)]
+        [ProducesResponseType(StatusCodes.Status500InternalServerError)]
         [HttpGet("{id}")]
         public async Task<IActionResult> GetEventById(int id)
         {
@@ -54,6 +68,15 @@ namespace RaceDay.Controllers
         }
 
         // POST: api/events (Organiser Only)
+        /// <summary>
+        /// Creates a new race event. Requires Organiser role.
+        /// </summary>
+        /// <param name="request">Event details: name, description, date, location, distance, type, route, and map.</param>
+        /// <returns>201 Created, 401 Unauthorized, 403 Forbidden.</returns>
+        [ProducesResponseType(StatusCodes.Status201Created)]
+        [ProducesResponseType(StatusCodes.Status401Unauthorized)]
+        [ProducesResponseType(StatusCodes.Status403Forbidden)]
+        [ProducesResponseType(StatusCodes.Status500InternalServerError)]
         [HttpPost]
         [AuthorizeRole("Organiser")]
         public async Task<IActionResult> CreateEvent([FromBody] Event request)
@@ -91,6 +114,17 @@ namespace RaceDay.Controllers
         }
 
         // PUT: api/events/{id} (Organiser Only)
+        /// <summary>
+        /// Updates an existing race event. Requires Organiser role.
+        /// </summary>
+        /// <param name="id">The unique EventID of the event to update.</param>
+        /// <param name="request">Updated event details.</param>
+        /// <returns>200 OK, 401 Unauthorized, 403 Forbidden, 404 Not Found.</returns>
+        [ProducesResponseType(StatusCodes.Status200OK)]
+        [ProducesResponseType(StatusCodes.Status401Unauthorized)]
+        [ProducesResponseType(StatusCodes.Status403Forbidden)]
+        [ProducesResponseType(StatusCodes.Status404NotFound)]
+        [ProducesResponseType(StatusCodes.Status500InternalServerError)]
         [HttpPut("{id}")]
         [AuthorizeRole("Organiser")]
         public async Task<IActionResult> UpdateEvent(int id, [FromBody] Event request)
@@ -120,6 +154,16 @@ namespace RaceDay.Controllers
         }
 
         // DELETE: api/events/{id} (Organiser Only)
+        /// <summary>
+        /// Deletes a race event. Requires Organiser role.
+        /// </summary>
+        /// <param name="id">The unique EventID of the event to delete.</param>
+        /// <returns>200 OK, 401 Unauthorized, 403 Forbidden, 404 Not Found.</returns>
+        [ProducesResponseType(StatusCodes.Status200OK)]
+        [ProducesResponseType(StatusCodes.Status401Unauthorized)]
+        [ProducesResponseType(StatusCodes.Status403Forbidden)]
+        [ProducesResponseType(StatusCodes.Status404NotFound)]
+        [ProducesResponseType(StatusCodes.Status500InternalServerError)]
         [HttpDelete("{id}")]
         [AuthorizeRole("Organiser")]
         public async Task<IActionResult> DeleteEvent(int id)

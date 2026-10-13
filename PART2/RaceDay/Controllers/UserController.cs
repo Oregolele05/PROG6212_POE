@@ -20,6 +20,15 @@ namespace RaceDay.Controllers
         }
 
         // GET: api/users/profile
+        /// <summary>
+        /// Retrieves the profile of the currently logged-in user. Merges data from the Users table
+        /// and the corresponding Organiser or Participant table.
+        /// </summary>
+        /// <returns>200 OK with profile data, 401 Unauthorized if not logged in, 404 Not Found if user missing.</returns>
+        [ProducesResponseType(StatusCodes.Status200OK)]
+        [ProducesResponseType(StatusCodes.Status401Unauthorized)]
+        [ProducesResponseType(StatusCodes.Status404NotFound)]
+        [ProducesResponseType(StatusCodes.Status500InternalServerError)]
         [HttpGet("profile")]
         public async Task<IActionResult> GetProfile()
         {
@@ -79,6 +88,15 @@ namespace RaceDay.Controllers
         }
 
         // PUT: api/users/profile
+        /// <summary>
+        /// Updates the logged-in user's username, email, name, and phone number.
+        /// </summary>
+        /// <param name="request">Updated profile details.</param>
+        /// <returns>200 OK on success, 401 Unauthorized, 404 Not Found.</returns>
+        [ProducesResponseType(StatusCodes.Status200OK)]
+        [ProducesResponseType(StatusCodes.Status401Unauthorized)]
+        [ProducesResponseType(StatusCodes.Status404NotFound)]
+        [ProducesResponseType(StatusCodes.Status500InternalServerError)]
         [HttpPut("profile")]
         public async Task<IActionResult> UpdateProfile([FromBody] UpdateProfile request)
         {

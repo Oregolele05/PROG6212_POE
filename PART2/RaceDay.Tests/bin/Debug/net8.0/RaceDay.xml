@@ -20,6 +20,125 @@
             <param name="request">Login credentials (email and password).</param>
             <returns>200 OK with userID and role on success, 401 Unauthorized on invalid credentials.</returns>
         </member>
+        <member name="M:RaceDay.Controllers.CategoriesController.GetCategoriesForEvent(System.Int32)">
+            <summary>
+            Retrieves all categories belonging to a specific event. Public access.
+            </summary>
+            <param name="eventID">The ID of the event to fetch categories for.</param>
+            <returns>200 OK with list of categories, 404 Not Found if the event doesn't exist.</returns>
+        </member>
+        <member name="M:RaceDay.Controllers.CategoriesController.CreateCategory(System.Int32,RaceDay.DTOs.Category)">
+            <summary>
+            Adds a new category (age bracket and distance) to a specific event. Requires Organiser role.
+            </summary>
+            <param name="eventID">The event to attach the category to.</param>
+            <param name="request">Category details (age bracket and distance).</param>
+            <returns>201 Created, 401 Unauthorized, 403 Forbidden, 404 Not Found.</returns>
+        </member>
+        <member name="M:RaceDay.Controllers.CategoriesController.DeleteCategory(System.Int32)">
+            <summary>
+            Deletes a specific category. Requires Organiser role.
+            </summary>
+            <param name="id">The unique CategoryID to delete.</param>
+            <returns>200 OK, 401 Unauthorized, 403 Forbidden, 404 Not Found.</returns>
+        </member>
+        <member name="M:RaceDay.Controllers.EnrollmentsController.EnrollInEvent(RaceDay.DTOs.Enrollment)">
+            <summary>
+            Enrols the logged-in Participant into an event under a specific category. Requires Participant role.
+            </summary>
+            <param name="request">The EventID and CategoryID to enrol into.</param>
+            <returns>201 Created, 400 Bad Request, 401 Unauthorized, 403 Forbidden, 404 Not Found, 409 Conflict if already enrolled.</returns>
+        </member>
+        <member name="M:RaceDay.Controllers.EnrollmentsController.GetMyEnrollments">
+            <summary>
+            Retrieves all active enrolments for the logged-in Participant. Requires Participant role.
+            </summary>
+            <returns>200 OK with list of the participant's enrolments, 401 Unauthorized, 403 Forbidden.</returns>
+        </member>
+        <member name="M:RaceDay.Controllers.EnrollmentsController.CancelEnrollment(System.Int32)">
+            <summary>
+            Cancels an active enrolment for the logged-in Participant. Requires Participant role.
+            </summary>
+            <param name="id">The EnrollmentID to cancel.</param>
+            <returns>200 OK, 401 Unauthorized, 403 Forbidden, 404 Not Found.</returns>
+        </member>
+        <member name="M:RaceDay.Controllers.EnrollmentsController.GetEventEnrollments(System.Int32)">
+            <summary>
+            Retrieves the full participant roster for an event. Requires Organiser role.
+            </summary>
+            <param name="eventId">The event ID to view enrolments for.</param>
+            <returns>200 OK with participant roster, 404 Not Found if event doesn't exist.</returns>
+        </member>
+        <member name="M:RaceDay.Controllers.EventsController.GetAllEvents">
+            <summary>
+            Retrieves all upcoming race events. Public access.
+            </summary>
+            <returns>200 OK with a list of all events.</returns>
+        </member>
+        <member name="M:RaceDay.Controllers.EventsController.GetEventById(System.Int32)">
+            <summary>
+            Retrieves a single event by its ID. Public access.
+            </summary>
+            <param name="id">The unique EventID of the race.</param>
+            <returns>200 OK with event details, 404 Not Found if the event doesn't exist.</returns>
+        </member>
+        <member name="M:RaceDay.Controllers.EventsController.CreateEvent(RaceDay.DTOs.Event)">
+            <summary>
+            Creates a new race event. Requires Organiser role.
+            </summary>
+            <param name="request">Event details: name, description, date, location, distance, type, route, and map.</param>
+            <returns>201 Created, 401 Unauthorized, 403 Forbidden.</returns>
+        </member>
+        <member name="M:RaceDay.Controllers.EventsController.UpdateEvent(System.Int32,RaceDay.DTOs.Event)">
+            <summary>
+            Updates an existing race event. Requires Organiser role.
+            </summary>
+            <param name="id">The unique EventID of the event to update.</param>
+            <param name="request">Updated event details.</param>
+            <returns>200 OK, 401 Unauthorized, 403 Forbidden, 404 Not Found.</returns>
+        </member>
+        <member name="M:RaceDay.Controllers.EventsController.DeleteEvent(System.Int32)">
+            <summary>
+            Deletes a race event. Requires Organiser role.
+            </summary>
+            <param name="id">The unique EventID of the event to delete.</param>
+            <returns>200 OK, 401 Unauthorized, 403 Forbidden, 404 Not Found.</returns>
+        </member>
+        <member name="M:RaceDay.Controllers.ResultsController.CaptureResult(System.Int32,RaceDay.DTOs.ResultDTO)">
+            <summary>
+            Captures a finish time and finishing position for a participant. Requires Organiser role.
+            </summary>
+            <param name="eventId">The event the result belongs to.</param>
+            <param name="request">Participant ID, finish time, and finishing position.</param>
+            <returns>201 Created, 401 Unauthorized, 403 Forbidden, 404 Not Found if participant or enrolment not found.</returns>
+        </member>
+        <member name="M:RaceDay.Controllers.ResultsController.GetEventLeaderboard(System.Int32)">
+            <summary>
+            Retrieves the sorted leaderboard for an event, ordered by finishing position. Public access.
+            </summary>
+            <param name="eventId">The event ID to view the leaderboard for.</param>
+            <returns>200 OK with sorted leaderboard, 404 Not Found if event doesn't exist.</returns>
+        </member>
+        <member name="M:RaceDay.Controllers.ResultsController.GetMyResults">
+            <summary>
+            Retrieves all personal race results for the logged-in Participant. Requires Participant role.
+            </summary>
+            <returns>200 OK with the participant's result history, 401 Unauthorized, 403 Forbidden.</returns>
+        </member>
+        <member name="M:RaceDay.Controllers.UsersController.GetProfile">
+            <summary>
+            Retrieves the profile of the currently logged-in user. Merges data from the Users table
+            and the corresponding Organiser or Participant table.
+            </summary>
+            <returns>200 OK with profile data, 401 Unauthorized if not logged in, 404 Not Found if user missing.</returns>
+        </member>
+        <member name="M:RaceDay.Controllers.UsersController.UpdateProfile(RaceDay.DTOs.UpdateProfile)">
+            <summary>
+            Updates the logged-in user's username, email, name, and phone number.
+            </summary>
+            <param name="request">Updated profile details.</param>
+            <returns>200 OK on success, 401 Unauthorized, 404 Not Found.</returns>
+        </member>
         <member name="T:RaceDay.Migrations.InitialCreate">
             <inheritdoc />
         </member>

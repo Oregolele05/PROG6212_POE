@@ -21,6 +21,18 @@ namespace RaceDay.Controllers
         }
 
         // POST: api/enrolments (Participant Only)
+        /// <summary>
+        /// Enrols the logged-in Participant into an event under a specific category. Requires Participant role.
+        /// </summary>
+        /// <param name="request">The EventID and CategoryID to enrol into.</param>
+        /// <returns>201 Created, 400 Bad Request, 401 Unauthorized, 403 Forbidden, 404 Not Found, 409 Conflict if already enrolled.</returns>
+        [ProducesResponseType(StatusCodes.Status201Created)]
+        [ProducesResponseType(StatusCodes.Status400BadRequest)]
+        [ProducesResponseType(StatusCodes.Status401Unauthorized)]
+        [ProducesResponseType(StatusCodes.Status403Forbidden)]
+        [ProducesResponseType(StatusCodes.Status404NotFound)]
+        [ProducesResponseType(StatusCodes.Status409Conflict)]
+        [ProducesResponseType(StatusCodes.Status500InternalServerError)]
         [HttpPost("enrolments")]
         [AuthorizeRole("Participant")]
         public async Task<IActionResult> EnrollInEvent([FromBody] Enrollment request)
@@ -65,6 +77,14 @@ namespace RaceDay.Controllers
         }
 
         // GET: api/enrolments/my-enrolments (Participant Only)
+        /// <summary>
+        /// Retrieves all active enrolments for the logged-in Participant. Requires Participant role.
+        /// </summary>
+        /// <returns>200 OK with list of the participant's enrolments, 401 Unauthorized, 403 Forbidden.</returns>
+        [ProducesResponseType(StatusCodes.Status200OK)]
+        [ProducesResponseType(StatusCodes.Status401Unauthorized)]
+        [ProducesResponseType(StatusCodes.Status403Forbidden)]
+        [ProducesResponseType(StatusCodes.Status500InternalServerError)]
         [HttpGet("enrolments/my-enrolments")]
         [AuthorizeRole("Participant")]
         public async Task<IActionResult> GetMyEnrollments()
@@ -101,6 +121,16 @@ namespace RaceDay.Controllers
         }
 
         // DELETE: api/enrolments/{id} (Participant Only)
+        /// <summary>
+        /// Cancels an active enrolment for the logged-in Participant. Requires Participant role.
+        /// </summary>
+        /// <param name="id">The EnrollmentID to cancel.</param>
+        /// <returns>200 OK, 401 Unauthorized, 403 Forbidden, 404 Not Found.</returns>
+        [ProducesResponseType(StatusCodes.Status200OK)]
+        [ProducesResponseType(StatusCodes.Status401Unauthorized)]
+        [ProducesResponseType(StatusCodes.Status403Forbidden)]
+        [ProducesResponseType(StatusCodes.Status404NotFound)]
+        [ProducesResponseType(StatusCodes.Status500InternalServerError)]
         [HttpDelete("enrolments/{id}")]
         [AuthorizeRole("Participant")]
         public async Task<IActionResult> CancelEnrollment(int id)
@@ -132,6 +162,16 @@ namespace RaceDay.Controllers
 
 
         // GET: api/events/{eventId}/enrolments (Organiser Only)
+        /// <summary>
+        /// Retrieves the full participant roster for an event. Requires Organiser role.
+        /// </summary>
+        /// <param name="eventId">The event ID to view enrolments for.</param>
+        /// <returns>200 OK with participant roster, 404 Not Found if event doesn't exist.</returns>
+        [ProducesResponseType(StatusCodes.Status200OK)]
+        [ProducesResponseType(StatusCodes.Status401Unauthorized)]
+        [ProducesResponseType(StatusCodes.Status403Forbidden)]
+        [ProducesResponseType(StatusCodes.Status404NotFound)]
+        [ProducesResponseType(StatusCodes.Status500InternalServerError)]
         [HttpGet("events/{eventId}/enrolments")]
         [AuthorizeRole("Organiser")]
         public async Task<IActionResult> GetEventEnrollments(int eventId)

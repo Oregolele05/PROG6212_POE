@@ -21,6 +21,17 @@ namespace RaceDay.Controllers
         }
 
         // POST: api/events/{eventId}/results (Organiser Only)
+        /// <summary>
+        /// Captures a finish time and finishing position for a participant. Requires Organiser role.
+        /// </summary>
+        /// <param name="eventId">The event the result belongs to.</param>
+        /// <param name="request">Participant ID, finish time, and finishing position.</param>
+        /// <returns>201 Created, 401 Unauthorized, 403 Forbidden, 404 Not Found if participant or enrolment not found.</returns>
+        [ProducesResponseType(StatusCodes.Status201Created)]
+        [ProducesResponseType(StatusCodes.Status401Unauthorized)]
+        [ProducesResponseType(StatusCodes.Status403Forbidden)]
+        [ProducesResponseType(StatusCodes.Status404NotFound)]
+        [ProducesResponseType(StatusCodes.Status500InternalServerError)]
         [HttpPost("events/{eventId}/results")]
         [AuthorizeRole("Organiser")]
         public async Task<IActionResult> CaptureResult(int eventId, [FromBody] ResultDTO request)
@@ -62,6 +73,14 @@ namespace RaceDay.Controllers
         }
 
         // GET: api/events/{eventId}/results (Public)
+        /// <summary>
+        /// Retrieves the sorted leaderboard for an event, ordered by finishing position. Public access.
+        /// </summary>
+        /// <param name="eventId">The event ID to view the leaderboard for.</param>
+        /// <returns>200 OK with sorted leaderboard, 404 Not Found if event doesn't exist.</returns>
+        [ProducesResponseType(StatusCodes.Status200OK)]
+        [ProducesResponseType(StatusCodes.Status404NotFound)]
+        [ProducesResponseType(StatusCodes.Status500InternalServerError)]
         [HttpGet("events/{eventId}/results")]
         public async Task<IActionResult> GetEventLeaderboard(int eventId)
         {
@@ -93,6 +112,14 @@ namespace RaceDay.Controllers
         }
 
         // GET: api/results/my-results (Participant Only)
+        /// <summary>
+        /// Retrieves all personal race results for the logged-in Participant. Requires Participant role.
+        /// </summary>
+        /// <returns>200 OK with the participant's result history, 401 Unauthorized, 403 Forbidden.</returns>
+        [ProducesResponseType(StatusCodes.Status200OK)]
+        [ProducesResponseType(StatusCodes.Status401Unauthorized)]
+        [ProducesResponseType(StatusCodes.Status403Forbidden)]
+        [ProducesResponseType(StatusCodes.Status500InternalServerError)]
         [HttpGet("results/my-results")]
         [AuthorizeRole("Participant")]
         public async Task<IActionResult> GetMyResults()
