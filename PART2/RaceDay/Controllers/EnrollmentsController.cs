@@ -129,5 +129,41 @@ namespace RaceDay.Controllers
                 return StatusCode(500, new { message = "An internal server error occurred." });
             }
         }
+
+
+        // GET: api/events/{eventId}/enrolments (Organiser Only)
+        [HttpGet("events/{eventId}/enrolments")]
+        [AuthorizeRole("Organiser")]
+        public async Task<IActionResult> GetEventEnrollments(int eventId)
+        {
+            try
+            {
+                var eventExists = await _context.EventGigs.AnyAsync(e => e.eventID == eventId);
+                if (!eventExists) return NotFound(new { message = "Event not found." });
+
+                var roster = await _context.EventEnrollments
+                    .Where(e => e.eventID == eventId)
+                    .Include(e => e.Participant)
+                    .Include(e => e.Categories)
+                    .Select(e => new
+                    {
+                        e.enrollmentID,
+                        ParticipantName = e.Participant.participantName,
+                        ParticipantEmail = e.Participant.participantEmail,
+                        CategoryAge = e.Categories.categoryAge,
+                        CategoryDistance = e.Categories.categoryDistance,
+                        e.enrollmentDate
+                    })
+                    .ToListAsync();
+
+                return Ok(roster);
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex, "Error retrieving event roster.");
+                return StatusCode(500, new { message = "An internal server error occurred." });
+            }
+        }
+
     }
 }
