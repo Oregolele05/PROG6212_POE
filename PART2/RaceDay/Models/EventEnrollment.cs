@@ -7,7 +7,7 @@ namespace RaceDay.Models
     {
         [Key]
         public int enrollmentID { get; set; }
-        public DateOnly enrollmentDate { get; set; }
+        public DateTime enrollmentDate { get; set; }
 
         //get the foreign key from EventGig
         public int eventID { get; set; }
