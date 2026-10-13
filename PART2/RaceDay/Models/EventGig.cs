@@ -1,13 +1,9 @@
-﻿using Microsoft.VisualBasic;
-using System.ComponentModel.DataAnnotations;
-
-namespace RaceDay.Models
+﻿namespace RaceDay.Models
 {
     public class EventGig
     {
-      
+
         public int eventID { get; set; }
-      
         public string eventName { get; set; }
         public DateOnly eventDate { get; set; }
         public string eventDescription { get; set; }

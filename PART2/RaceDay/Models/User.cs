@@ -1,4 +1,4 @@
-﻿namespace RaceDay.Models
+namespace RaceDay.Models
 {
     public class User
     {

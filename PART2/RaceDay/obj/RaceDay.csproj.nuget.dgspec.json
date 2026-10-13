@@ -50,9 +50,9 @@
         "net8.0": {
           "targetAlias": "net8.0",
           "dependencies": {
-            "BCrypt.Net-Next": {
+            "Swashbuckle.AspNetCore": {
               "target": "Package",
-              "version": "[4.2.0, )"
+              "version": "[6.6.2, )"
             }
           },
           "imports": [

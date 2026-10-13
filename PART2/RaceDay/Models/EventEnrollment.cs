@@ -11,7 +11,7 @@
 
         //get foreign key from Participant
         public int participantID { get; set; }
-        public Participants Participants { get; set; }
+        public Participant Participants { get; set; }
 
         //get foreign key from Categories
         public int categoryID { get; set; }
