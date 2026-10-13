@@ -4,6 +4,22 @@
         <name>RaceDay</name>
     </assembly>
     <members>
+        <member name="M:RaceDay.Controllers.AuthController.Register(RaceDay.DTOs.Registration)">
+            <summary>
+            Registers a new user as either an Organiser or a Participant. Creates the base User
+            record and links it to the corresponding profile table. Password is hashed using BCrypt.
+            </summary>
+            <param name="request">Registration details: username, email, password, role, name, and phone.</param>
+            <returns>201 Created on success, 400 Bad Request if the email already exists or the role is invalid.</returns>
+        </member>
+        <member name="M:RaceDay.Controllers.AuthController.Login(RaceDay.DTOs.Login)">
+            <summary>
+            Authenticates a user with email and password. Creates a server-side session storing
+            the UserID and UserRole for all subsequent authorized requests.
+            </summary>
+            <param name="request">Login credentials (email and password).</param>
+            <returns>200 OK with userID and role on success, 401 Unauthorized on invalid credentials.</returns>
+        </member>
         <member name="T:RaceDay.Migrations.InitialCreate">
             <inheritdoc />
         </member>

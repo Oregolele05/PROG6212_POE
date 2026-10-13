@@ -20,6 +20,15 @@ namespace RaceDay.Controllers
             _logger = logger;
         }
 
+        /// <summary>
+        /// Registers a new user as either an Organiser or a Participant. Creates the base User
+        /// record and links it to the corresponding profile table. Password is hashed using BCrypt.
+        /// </summary>
+        /// <param name="request">Registration details: username, email, password, role, name, and phone.</param>
+        /// <returns>201 Created on success, 400 Bad Request if the email already exists or the role is invalid.</returns>
+        [ProducesResponseType(StatusCodes.Status201Created)]
+        [ProducesResponseType(StatusCodes.Status400BadRequest)]
+        [ProducesResponseType(StatusCodes.Status500InternalServerError)]
         [HttpPost("register")]
         public async Task<IActionResult> Register([FromBody] Registration request)
         {
@@ -78,6 +87,15 @@ namespace RaceDay.Controllers
             }
         }
 
+        /// <summary>
+        /// Authenticates a user with email and password. Creates a server-side session storing
+        /// the UserID and UserRole for all subsequent authorized requests.
+        /// </summary>
+        /// <param name="request">Login credentials (email and password).</param>
+        /// <returns>200 OK with userID and role on success, 401 Unauthorized on invalid credentials.</returns>
+        [ProducesResponseType(StatusCodes.Status200OK)]
+        [ProducesResponseType(StatusCodes.Status401Unauthorized)]
+        [ProducesResponseType(StatusCodes.Status500InternalServerError)]
         [HttpPost("login")]
         public async Task<IActionResult> Login([FromBody] Login request)
         {
