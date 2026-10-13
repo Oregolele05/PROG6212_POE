@@ -77,5 +77,59 @@ namespace RaceDay.Controllers
                 return StatusCode(500, new { message = "An internal server error occurred." });
             }
         }
+
+        // PUT: api/users/profile
+        [HttpPut("profile")]
+        public async Task<IActionResult> UpdateProfile([FromBody] UpdateProfile request)
+        {
+            try
+            {
+                var userId = HttpContext.Session.GetInt32("UserID");
+                if (userId == null)
+                {
+                    return Unauthorized(new { message = "You must be logged in to update your profile." });
+                }
+
+                var user = await _context.Users.FindAsync(userId);
+                if (user == null)
+                {
+                    return NotFound(new { message = "User not found." });
+                }
+
+                user.username = request.Username;
+                user.userEmail = request.UserEmail;
+
+                if (user.userRole == "Organiser")
+                {
+                    var organiser = await _context.Organisers.FirstOrDefaultAsync(o => o.userID == userId);
+                    if (organiser != null)
+                    {
+                        organiser.organiserName = request.Name;
+                        organiser.organiserPhone = request.Phone;
+                        organiser.organiserEmail = request.UserEmail;
+                    }
+                }
+                else if (user.userRole == "Participant")
+                {
+                    var participant = await _context.Participants.FirstOrDefaultAsync(p => p.userID == userId);
+                    if (participant != null)
+                    {
+                        participant.participantName = request.Name;
+                        participant.participantPhone = request.Phone;
+                        participant.participantEmail = request.UserEmail;
+                    }
+                }
+
+                await _context.SaveChangesAsync();
+
+                return Ok(new { message = "Profile updated successfully." });
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex, "Error updating profile.");
+                return StatusCode(500, new { message = "An internal server error occurred." });
+            }
+        }
+
     }
 }
