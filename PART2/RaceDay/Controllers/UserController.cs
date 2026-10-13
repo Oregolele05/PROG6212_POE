@@ -61,12 +61,12 @@ namespace RaceDay.Controllers
 
                 var response = new UserProfile
                 {
-                    UserID = user.userID,
-                    Username = user.username,
-                    UserEmail = user.userEmail,
-                    UserRole = user.userRole,
-                    Name = name,
-                    Phone = phone
+                    userID = user.userID,
+                    username = user.username,
+                    userEmail = user.userEmail,
+                    userRole = user.userRole,
+                    name = name,
+                    phone = phone
                 };
 
                 return Ok(response);
