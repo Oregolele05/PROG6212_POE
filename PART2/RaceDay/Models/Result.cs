@@ -8,7 +8,7 @@ namespace RaceDay.Models
         [Key]   
         public int resultID { get; set; }
         [Required]
-        public TimeOnly participantTime { get; set; }
+        public TimeSpan participantTime { get; set; }
         [Required]
         public string participantPosition { get; set; }
 

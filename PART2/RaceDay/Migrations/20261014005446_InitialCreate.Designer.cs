@@ -12,7 +12,7 @@ using RaceDay.Data;
 namespace RaceDay.Migrations
 {
     [DbContext(typeof(RaceDayDbContext))]
-    [Migration("20261013213756_InitialCreate")]
+    [Migration("20261014005446_InitialCreate")]
     partial class InitialCreate
     {
         /// <inheritdoc />
@@ -61,8 +61,8 @@ namespace RaceDay.Migrations
                     b.Property<int>("categoryID")
                         .HasColumnType("int");
 
-                    b.Property<DateOnly>("enrollmentDate")
-                        .HasColumnType("date");
+                    b.Property<DateTime>("enrollmentDate")
+                        .HasColumnType("datetime2");
 
                     b.Property<int>("eventID")
                         .HasColumnType("int");
@@ -89,8 +89,8 @@ namespace RaceDay.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("eventID"));
 
-                    b.Property<DateOnly>("eventDate")
-                        .HasColumnType("date");
+                    b.Property<DateTime>("eventDate")
+                        .HasColumnType("datetime2");
 
                     b.Property<string>("eventDescription")
                         .IsRequired()
@@ -208,7 +208,7 @@ namespace RaceDay.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<TimeOnly>("participantTime")
+                    b.Property<TimeSpan>("participantTime")
                         .HasColumnType("time");
 
                     b.HasKey("resultID");
@@ -217,7 +217,7 @@ namespace RaceDay.Migrations
 
                     b.HasIndex("participantID");
 
-                    b.ToTable("Result");
+                    b.ToTable("Results");
                 });
 
             modelBuilder.Entity("RaceDay.Models.User", b =>

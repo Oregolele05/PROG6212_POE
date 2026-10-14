@@ -1,6 +1,5 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using RaceDay.Models;
-using System.Collections.Generic;
 
 namespace RaceDay.Data
 {
@@ -14,13 +13,22 @@ namespace RaceDay.Data
         public DbSet<EventGig> EventGigs { get; set; }
         public DbSet<Categories> Categories { get; set; }
         public DbSet<EventEnrollment> EventEnrollments { get; set; }
-        public DbSet<Result> Result { get; set; }
+        public DbSet<Result> Results { get; set; }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             base.OnModelCreating(modelBuilder);
 
-            // Prevent multiple cascade delete paths for RaceResult
+            // ---- Explicitly mark optional EventGig properties as NOT required ----
+            modelBuilder.Entity<EventGig>()
+                .Property(e => e.eventRoute)
+                .IsRequired(false);
+
+            modelBuilder.Entity<EventGig>()
+                .Property(e => e.eventMap)
+                .IsRequired(false);
+
+            // ---- Cascade delete prevention ----
             modelBuilder.Entity<Result>()
                 .HasOne(r => r.Participant)
                 .WithMany()
@@ -33,7 +41,6 @@ namespace RaceDay.Data
                 .HasForeignKey(r => r.eventID)
                 .OnDelete(DeleteBehavior.Restrict);
 
-            // Prevent multiple cascade delete paths for EventEnrollment
             modelBuilder.Entity<EventEnrollment>()
                 .HasOne(e => e.Participant)
                 .WithMany()

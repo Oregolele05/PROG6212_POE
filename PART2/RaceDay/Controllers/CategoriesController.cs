@@ -38,7 +38,7 @@ namespace RaceDay.Controllers
                 if (!eventExists) return NotFound(new { message = "Event not found." });
 
                 var categories = await _context.Categories
-                    .Where(c => c.eventID == eventID)
+                    .Where(c => eventID == eventID)
                     .ToListAsync();
 
                 return Ok(categories);

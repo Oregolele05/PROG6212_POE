@@ -78,7 +78,7 @@ namespace RaceDay.Migrations
                     eventID = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
                     eventName = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    eventDate = table.Column<DateOnly>(type: "date", nullable: false),
+                    eventDate = table.Column<DateTime>(type: "datetime2", nullable: false),
                     eventDescription = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     eventLocation = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     eventDistance = table.Column<string>(type: "nvarchar(max)", nullable: false),
@@ -120,27 +120,27 @@ namespace RaceDay.Migrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "Result",
+                name: "Results",
                 columns: table => new
                 {
                     resultID = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
-                    participantTime = table.Column<TimeOnly>(type: "time", nullable: false),
+                    participantTime = table.Column<TimeSpan>(type: "time", nullable: false),
                     participantPosition = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     eventID = table.Column<int>(type: "int", nullable: false),
                     participantID = table.Column<int>(type: "int", nullable: false)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_Result", x => x.resultID);
+                    table.PrimaryKey("PK_Results", x => x.resultID);
                     table.ForeignKey(
-                        name: "FK_Result_EventGigs_eventID",
+                        name: "FK_Results_EventGigs_eventID",
                         column: x => x.eventID,
                         principalTable: "EventGigs",
                         principalColumn: "eventID",
                         onDelete: ReferentialAction.Restrict);
                     table.ForeignKey(
-                        name: "FK_Result_Participants_participantID",
+                        name: "FK_Results_Participants_participantID",
                         column: x => x.participantID,
                         principalTable: "Participants",
                         principalColumn: "participantID",
@@ -153,7 +153,7 @@ namespace RaceDay.Migrations
                 {
                     enrollmentID = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
-                    enrollmentDate = table.Column<DateOnly>(type: "date", nullable: false),
+                    enrollmentDate = table.Column<DateTime>(type: "datetime2", nullable: false),
                     eventID = table.Column<int>(type: "int", nullable: false),
                     participantID = table.Column<int>(type: "int", nullable: false),
                     categoryID = table.Column<int>(type: "int", nullable: false)
@@ -217,13 +217,13 @@ namespace RaceDay.Migrations
                 column: "userID");
 
             migrationBuilder.CreateIndex(
-                name: "IX_Result_eventID",
-                table: "Result",
+                name: "IX_Results_eventID",
+                table: "Results",
                 column: "eventID");
 
             migrationBuilder.CreateIndex(
-                name: "IX_Result_participantID",
-                table: "Result",
+                name: "IX_Results_participantID",
+                table: "Results",
                 column: "participantID");
         }
 
@@ -234,7 +234,7 @@ namespace RaceDay.Migrations
                 name: "EventEnrollments");
 
             migrationBuilder.DropTable(
-                name: "Result");
+                name: "Results");
 
             migrationBuilder.DropTable(
                 name: "Categories");

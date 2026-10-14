@@ -60,7 +60,7 @@ namespace RaceDay.Controllers
                     participantPosition  = request.ParticipantPosition
                 };
 
-                _context.Result.Add(newResult);
+                _context.Results.Add(newResult);
                 await _context.SaveChangesAsync();
 
                 return StatusCode(201, new { message = "Result captured successfully.", resultId = newResult.resultID });
@@ -89,7 +89,7 @@ namespace RaceDay.Controllers
                 var eventExists = await _context.EventGigs.AnyAsync(e => e.eventID == eventId);
                 if (!eventExists) return NotFound(new { message = "Event not found." });
 
-                var leaderboard = await _context.Result
+                var leaderboard = await _context.Results
                     .Where(r => r.eventID == eventId)
                     .Include(r => r.Participant)
                     .OrderBy(r => r.participantPosition)
@@ -130,7 +130,7 @@ namespace RaceDay.Controllers
                 var participant = await _context.Participants.FirstOrDefaultAsync(p => p.userID == userId);
                 if (participant == null) return BadRequest(new { message = "Participant profile not found." });
 
-                var myResults = await _context.Result
+                var myResults = await _context.Results
                     .Where(r => r.participantID == participant.participantID)
                     .Include(r => r.EventGig)
                     .Select(r => new

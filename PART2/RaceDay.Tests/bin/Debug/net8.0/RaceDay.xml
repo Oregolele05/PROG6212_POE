@@ -69,41 +69,6 @@
             <param name="eventId">The event ID to view enrolments for.</param>
             <returns>200 OK with participant roster, 404 Not Found if event doesn't exist.</returns>
         </member>
-        <member name="M:RaceDay.Controllers.EventsController.GetAllEvents">
-            <summary>
-            Retrieves all upcoming race events. Public access.
-            </summary>
-            <returns>200 OK with a list of all events.</returns>
-        </member>
-        <member name="M:RaceDay.Controllers.EventsController.GetEventById(System.Int32)">
-            <summary>
-            Retrieves a single event by its ID. Public access.
-            </summary>
-            <param name="id">The unique EventID of the race.</param>
-            <returns>200 OK with event details, 404 Not Found if the event doesn't exist.</returns>
-        </member>
-        <member name="M:RaceDay.Controllers.EventsController.CreateEvent(RaceDay.DTOs.Event)">
-            <summary>
-            Creates a new race event. Requires Organiser role.
-            </summary>
-            <param name="request">Event details: name, description, date, location, distance, type, route, and map.</param>
-            <returns>201 Created, 401 Unauthorized, 403 Forbidden.</returns>
-        </member>
-        <member name="M:RaceDay.Controllers.EventsController.UpdateEvent(System.Int32,RaceDay.DTOs.Event)">
-            <summary>
-            Updates an existing race event. Requires Organiser role.
-            </summary>
-            <param name="id">The unique EventID of the event to update.</param>
-            <param name="request">Updated event details.</param>
-            <returns>200 OK, 401 Unauthorized, 403 Forbidden, 404 Not Found.</returns>
-        </member>
-        <member name="M:RaceDay.Controllers.EventsController.DeleteEvent(System.Int32)">
-            <summary>
-            Deletes a race event. Requires Organiser role.
-            </summary>
-            <param name="id">The unique EventID of the event to delete.</param>
-            <returns>200 OK, 401 Unauthorized, 403 Forbidden, 404 Not Found.</returns>
-        </member>
         <member name="M:RaceDay.Controllers.ResultsController.CaptureResult(System.Int32,RaceDay.DTOs.ResultDTO)">
             <summary>
             Captures a finish time and finishing position for a participant. Requires Organiser role.

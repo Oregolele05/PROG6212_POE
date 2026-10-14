@@ -7,7 +7,7 @@ namespace RaceDay.DTOs
         [Required] 
         public int ParticipantID { get; set; }
         [Required] 
-        public TimeOnly ParticipantTime { get; set; }
+        public TimeSpan ParticipantTime { get; set; }
         [Required] 
         public string ParticipantPosition { get; set; }
     }

@@ -10,7 +10,7 @@ namespace RaceDay.Models
         [Required]
         public string eventName { get; set; }
         [Required]
-        public DateOnly eventDate { get; set; }
+        public DateTime eventDate { get; set; }
         [Required]
         public string eventDescription { get; set; }
         [Required]
@@ -20,9 +20,9 @@ namespace RaceDay.Models
         [Required]
         public string eventType { get; set; }
         [Required]
-        public string eventRoute { get; set; }
+        public string? eventRoute { get; set; }
         [Required]
-        public string eventMap { get; set; }
+        public string? eventMap { get; set; }
         //get the foreign key from Organiser
         public int organiserID { get; set; }
         [ForeignKey("organiserID")]

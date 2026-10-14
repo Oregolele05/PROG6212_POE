@@ -21,12 +21,6 @@ namespace RaceDay.Controllers
         }
 
         // GET: api/events
-        /// <summary>
-        /// Retrieves all upcoming race events. Public access.
-        /// </summary>
-        /// <returns>200 OK with a list of all events.</returns>
-        [ProducesResponseType(StatusCodes.Status200OK)]
-        [ProducesResponseType(StatusCodes.Status500InternalServerError)]
         [HttpGet]
         public async Task<IActionResult> GetAllEvents()
         {
@@ -43,14 +37,6 @@ namespace RaceDay.Controllers
         }
 
         // GET: api/events/{id}
-        /// <summary>
-        /// Retrieves a single event by its ID. Public access.
-        /// </summary>
-        /// <param name="id">The unique EventID of the race.</param>
-        /// <returns>200 OK with event details, 404 Not Found if the event doesn't exist.</returns>
-        [ProducesResponseType(StatusCodes.Status200OK)]
-        [ProducesResponseType(StatusCodes.Status404NotFound)]
-        [ProducesResponseType(StatusCodes.Status500InternalServerError)]
         [HttpGet("{id}")]
         public async Task<IActionResult> GetEventById(int id)
         {
@@ -67,16 +53,7 @@ namespace RaceDay.Controllers
             }
         }
 
-        // POST: api/events (Organiser Only)
-        /// <summary>
-        /// Creates a new race event. Requires Organiser role.
-        /// </summary>
-        /// <param name="request">Event details: name, description, date, location, distance, type, route, and map.</param>
-        /// <returns>201 Created, 401 Unauthorized, 403 Forbidden.</returns>
-        [ProducesResponseType(StatusCodes.Status201Created)]
-        [ProducesResponseType(StatusCodes.Status401Unauthorized)]
-        [ProducesResponseType(StatusCodes.Status403Forbidden)]
-        [ProducesResponseType(StatusCodes.Status500InternalServerError)]
+        // POST: api/events (Organiser Only) — with debug output
         [HttpPost]
         [AuthorizeRole("Organiser")]
         public async Task<IActionResult> CreateEvent([FromBody] Event request)
@@ -84,9 +61,12 @@ namespace RaceDay.Controllers
             try
             {
                 var userId = HttpContext.Session.GetInt32("UserID");
-                var organiser = await _context.Organisers.FirstOrDefaultAsync(o => o.userID == userId);
+                if (userId == null)
+                    return Unauthorized(new { message = "Session lost." });
 
-                if (organiser == null) return BadRequest(new { message = "Organiser profile not found." });
+                var organiser = await _context.Organisers.FirstOrDefaultAsync(o => o.userID == userId);
+                if (organiser == null)
+                    return BadRequest(new { message = "Organiser profile not found.", userId = userId });
 
                 var newEvent = new EventGig
                 {
@@ -98,7 +78,7 @@ namespace RaceDay.Controllers
                     eventType = request.EventType,
                     eventRoute = request.EventRoute,
                     eventMap = request.EventMap,
-                    organiserID = organiser.organiserID // Link to the logged-in organiser
+                    organiserID = organiser.organiserID
                 };
 
                 _context.EventGigs.Add(newEvent);
@@ -109,22 +89,21 @@ namespace RaceDay.Controllers
             catch (Exception ex)
             {
                 _logger.LogError(ex, "Error creating event.");
-                return StatusCode(500, new { message = "An internal server error occurred." });
+                // ---- TEMPORARY DEBUG ----
+                return StatusCode(500, new
+                {
+                    message = "An internal server error occurred.",
+                    errorType = ex.GetType().FullName,
+                    errorMessage = ex.Message,
+                    innerError = ex.InnerException?.Message,
+                    innerInnerError = ex.InnerException?.InnerException?.Message,
+                    stackTrace = ex.StackTrace
+                });
+                // ---- END DEBUG ----
             }
         }
 
         // PUT: api/events/{id} (Organiser Only)
-        /// <summary>
-        /// Updates an existing race event. Requires Organiser role.
-        /// </summary>
-        /// <param name="id">The unique EventID of the event to update.</param>
-        /// <param name="request">Updated event details.</param>
-        /// <returns>200 OK, 401 Unauthorized, 403 Forbidden, 404 Not Found.</returns>
-        [ProducesResponseType(StatusCodes.Status200OK)]
-        [ProducesResponseType(StatusCodes.Status401Unauthorized)]
-        [ProducesResponseType(StatusCodes.Status403Forbidden)]
-        [ProducesResponseType(StatusCodes.Status404NotFound)]
-        [ProducesResponseType(StatusCodes.Status500InternalServerError)]
         [HttpPut("{id}")]
         [AuthorizeRole("Organiser")]
         public async Task<IActionResult> UpdateEvent(int id, [FromBody] Event request)
@@ -148,22 +127,12 @@ namespace RaceDay.Controllers
             }
             catch (Exception ex)
             {
-                _logger.LogError(ex, "Error updating event.");
+                _logger.LogError(ex, "Error creating event.");
                 return StatusCode(500, new { message = "An internal server error occurred." });
             }
         }
 
         // DELETE: api/events/{id} (Organiser Only)
-        /// <summary>
-        /// Deletes a race event. Requires Organiser role.
-        /// </summary>
-        /// <param name="id">The unique EventID of the event to delete.</param>
-        /// <returns>200 OK, 401 Unauthorized, 403 Forbidden, 404 Not Found.</returns>
-        [ProducesResponseType(StatusCodes.Status200OK)]
-        [ProducesResponseType(StatusCodes.Status401Unauthorized)]
-        [ProducesResponseType(StatusCodes.Status403Forbidden)]
-        [ProducesResponseType(StatusCodes.Status404NotFound)]
-        [ProducesResponseType(StatusCodes.Status500InternalServerError)]
         [HttpDelete("{id}")]
         [AuthorizeRole("Organiser")]
         public async Task<IActionResult> DeleteEvent(int id)
