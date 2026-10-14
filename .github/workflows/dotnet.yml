@@ -20,12 +20,12 @@ jobs:
         
     - name: Restore dependencies
       run: dotnet restore
-      working-directory: ./PART2
+      working-directory: ./PART2/RaceDay
       
     - name: Build
       run: dotnet build --no-restore
-      working-directory: ./PART2
+      working-directory: ./PART2/RaceDay
       
     - name: Test
       run: dotnet test --no-build --verbosity normal
-      working-directory: ./PART2
+      working-directory: ./PART2/RaceDay.Tests
