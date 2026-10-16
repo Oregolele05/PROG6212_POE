@@ -114,6 +114,8 @@ Passwords are hashed with **BCrypt** before storage. Plain-text passwords are ne
 ## ✅ Unit Testing
 
 Tests are located in the RaceDay.Tests project and cover both success and failure scenarios.
+<img width="435" height="292" alt="image" src="https://github.com/user-attachments/assets/e9a30d9a-7d73-485f-abfb-edc1fbdc8a4a" />
+
 
 | Test File | Coverage |
 |---|---|
@@ -140,17 +142,16 @@ The workflow performs the following steps:
 
 
 ## 🎥 Video Demonstration
+YouTube link for Organiser: https://youtu.be/f-_28HzoTKk
+YouTube link for Participant: https://youtu.be/A6cDj0DgsDI
 
-📺 **Watch the API demonstration:** https://youtu.be/pLxrnFUttkY
 
 The video covers:
-- Project structure (Controllers, Models, DTOs, DbContext)
 - Swagger UI walkthrough of all endpoints
 - Session-based authentication flow
 - Role-based authorization (Participant blocked from creating an event — 403 Forbidden)
 - Registration, login, and enrolment demonstration
-- Unit tests running in Test Explorer
-- GitHub Actions green build
+
 
 ## 📂 Project Structure
 PART2/
