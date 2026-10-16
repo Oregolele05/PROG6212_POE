@@ -136,7 +136,8 @@ The workflow performs the following steps:
 3. Run all unit tests
 
 ### Successful CI/CD Green Build:
-![CI/CD Green Build](PATH_TO_YOUR_SCREENSHOT_HERE)
+<img width="1477" height="568" alt="image" src="https://github.com/user-attachments/assets/7aedfd86-1dbe-4f2a-b985-6edba89d1fbd" />
+
 
 ## 🎥 Video Demonstration
 
