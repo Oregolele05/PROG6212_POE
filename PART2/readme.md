@@ -140,7 +140,7 @@ The workflow performs the following steps:
 
 ## 🎥 Video Demonstration
 
-📺 **Watch the API demonstration:** [YouTube Video Link](INSERT_YOUTUBE_LINK_HERE)
+📺 **Watch the API demonstration:** https://youtu.be/pLxrnFUttkY
 
 The video covers:
 - Project structure (Controllers, Models, DTOs, DbContext)
