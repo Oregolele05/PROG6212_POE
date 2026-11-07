@@ -1,0 +1,117 @@
+@import url('https://fonts.googleapis.com/css2?family=VT323&display=swap');
+
+/* --- RaceDay Retro Theme --- */
+body {
+    background-color: #0b1035 !important; /* Deep Navy */
+    color: #ffffff;
+    font-family: 'VT323', monospace; /* Pixel Font */
+    font-size: 1.3rem;
+    margin-bottom: 60px;
+}
+
+h1, h2, h3, h4, h5 {
+    font-family: 'VT323', monospace;
+    text-transform: uppercase;
+    color: #ffffff;
+    letter-spacing: 2px;
+}
+
+/* --- Navigation Bar --- */
+.navbar {
+    background-color: #008b8b !important; /* Teal */
+    border-bottom: 2px solid #00ffff !important;
+}
+
+.navbar-brand, .nav-link {
+    color: #ffffff !important;
+    font-weight: bold;
+    text-transform: uppercase;
+}
+
+    .nav-link:hover {
+        color: #00ffff !important;
+    }
+
+/* --- Forms & Cards --- */
+.card {
+    background-color: #0b1035; /* Match body */
+    border: none;
+    color: #ffffff;
+}
+
+.card-header, h3 {
+    color: #ffffff;
+    text-align: center;
+    font-size: 2rem;
+    border-bottom: none;
+    background-color: transparent;
+}
+
+/* --- Inputs --- */
+.form-control, .form-select {
+    background-color: #008b8b !important; /* Teal Inputs */
+    border: 2px solid #00ffff !important;
+    color: #ffffff !important;
+    border-radius: 5px;
+}
+
+    .form-control:focus, .form-select:focus {
+        box-shadow: 0 0 10px #00ffff;
+        background-color: #008b8b !important;
+    }
+
+.form-label {
+    color: #ffffff;
+    margin-bottom: 0px;
+}
+
+/* --- Buttons (Outlined style) --- */
+.btn-primary, .btn-success, .btn-custom {
+    background-color: transparent !important;
+    border: 2px solid #ffffff !important;
+    color: #ffffff !important;
+    text-transform: uppercase;
+    border-radius: 5px;
+    font-size: 1.2rem;
+    padding: 5px 20px;
+}
+
+    .btn-primary:hover, .btn-success:hover, .btn-custom:hover {
+        background-color: #ffffff !important;
+        color: #0b1035 !important;
+    }
+
+/* Red Danger Buttons (For Delete pages later) */
+.btn-danger {
+    background-color: #ff0000 !important;
+    border: 2px solid #ff0000 !important;
+    color: white !important;
+}
+
+/* --- Footer --- */
+.footer {
+    background-color: #0b1035 !important;
+    color: #888 !important;
+    border-top: 1px solid #008b8b !important;
+}
+
+
+/* --- Custom Navigation Bar --- */
+.custom-navbar {
+    background-color: #008b8b !important;
+    border-bottom: 2px solid #00ffff !important;
+    padding: 10px 0;
+}
+
+    .custom-navbar .nav-link {
+        color: #ffffff !important;
+        font-size: 1.2rem;
+        padding: 5px 15px !important;
+        border-radius: 4px;
+        transition: background-color 0.2s;
+    }
+
+        .custom-navbar .nav-link:hover {
+            background-color: #00a8a8;
+            color: #000000 !important;
+        }
