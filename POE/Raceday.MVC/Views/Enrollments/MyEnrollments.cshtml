@@ -1,0 +1,41 @@
+﻿@{
+    ViewData["Title"] = "My Enrolments";
+    var enrolments = ViewBag.Enrollments as IEnumerable<RaceDay.MVC.ViewModels.MyEnrollmentViewModel>;
+}
+
+<div class="container mt-5">
+    <h1 class="mb-4" style="color: #00ffff;">MY ENROLMENTS</h1>
+    @if (TempData["SuccessMessage"] != null)
+    {
+        <div class="alert alert-success" style="background-color: #008b8b; color: white;">@TempData["SuccessMessage"]</div>
+    }
+
+    @if (enrolments == null || !enrolments.Any())
+    {
+        <div class="text-center mt-5"><h3>You haven't enrolled in any events yet.</h3></div>
+    }
+    else
+    {
+        <table class="table table-custom table-bordered">
+            <thead>
+                <tr><th>Event Name</th><th>Date</th><th>Category</th><th>Status</th><th>Action</th></tr>
+            </thead>
+            <tbody>
+                @foreach (var item in enrolments)
+                {
+                    <tr>
+                        <td>@item.EventName</td>
+                        <td>@item.EventDate.ToString("dd MMM yyyy")</td>
+                        <td>Age @item.CategoryAge - @item.CategoryDistance</td>
+                        <td><span style="color: #00ff00;">Confirmed</span></td>
+                        <td>
+                            <form asp-action="Cancel" asp-route-id="@item.EnrollmentID" method="post">
+                                <button type="submit" class="btn btn-sm btn-custom" style="border-color: #ff0000; color: #ff0000;">Cancel</button>
+                            </form>
+                        </td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    }
+</div>
