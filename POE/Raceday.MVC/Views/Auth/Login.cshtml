@@ -1,0 +1,39 @@
+﻿@model RaceDay.MVC.ViewModels.LoginViewModel
+@{
+    ViewData["Title"] = "Sign In";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<div class="container mt-5">
+    <div class="row justify-content-center">
+        <div class="col-md-5">
+            <h3 class="text-center mb-4">User Sign In</h3>
+
+            @if (TempData["SuccessMessage"] != null)
+            {
+                <div class="alert alert-success" style="background-color: #008b8b; border-color: #00ffff;">@TempData["SuccessMessage"]</div>
+            }
+
+            <form asp-action="Login" method="post">
+                <div asp-validation-summary="ModelOnly" class="text-danger mb-3" style="color: #ff0000 !important;"></div>
+
+                <div class="mb-3">
+                    <label asp-for="Email" class="form-label">Enter email address</label>
+                    <input asp-for="Email" class="form-control" />
+                    <span asp-validation-for="Email" class="text-danger" style="color: #ff0000 !important;"></span>
+                </div>
+
+                <div class="mb-3">
+                    <label asp-for="Password" class="form-label">Enter password</label>
+                    <input asp-for="Password" class="form-control" />
+                    <span asp-validation-for="Password" class="text-danger" style="color: #ff0000 !important;"></span>
+                </div>
+
+                <div class="d-flex justify-content-between mt-4">
+                    <button type="submit" class="btn btn-custom">[ Sign In ]</button>
+                    <a asp-action="Register" class="btn btn-custom">[ Register account ]</a>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
