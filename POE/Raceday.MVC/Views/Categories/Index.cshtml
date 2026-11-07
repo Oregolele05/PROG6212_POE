@@ -1,0 +1,40 @@
+﻿@{
+    ViewData["Title"] = "Categories";
+    var categories = ViewBag.Categories as IEnumerable<RaceDay.MVC.ViewModels.CategoryViewModel>;
+}
+
+<div class="container mt-5">
+    <div class="d-flex justify-content-between align-items-center mb-4">
+        <h2 style="color: #00ffff;">CATEGORIES: @ViewBag.EventName</h2>
+        <a asp-action="Create" asp-route-id="@ViewBag.EventID" class="btn btn-custom">[ ADD NEW CATEGORY ]</a>
+    </div>
+
+    @if (categories == null || !categories.Any())
+    {
+        <div class="text-center mt-5"><h3>No categories added yet.</h3></div>
+    }
+    else
+    {
+        <table class="table table-custom table-bordered">
+            <thead>
+                <tr><th>Category ID</th><th>Age Bracket</th><th>Distance</th><th>Action</th></tr>
+            </thead>
+            <tbody>
+                @foreach (var cat in categories)
+                {
+                    <tr>
+                        <td>#CID@cat.CategoryID</td>
+                        <td>@cat.CategoryAge</td>
+                        <td>@cat.CategoryDistance</td>
+                        <td>
+                            <form asp-action="Delete" asp-route-id="@cat.CategoryID" asp-route-eventId="@ViewBag.EventID" method="post" onsubmit="return confirm('Delete this category?');">
+                                <button type="submit" class="btn btn-sm btn-custom" style="border-color: #ff0000; color: #ff0000; padding: 2px 10px;">Delete</button>
+                            </form>
+                        </td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    }
+    <div class="mt-4"><a asp-controller="Events" asp-action="Index" class="btn btn-custom">[ BACK TO EVENTS ]</a></div>
+</div>

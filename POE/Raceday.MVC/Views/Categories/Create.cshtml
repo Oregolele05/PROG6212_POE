@@ -1,0 +1,34 @@
+﻿@model RaceDay.MVC.ViewModels.CreateCategoryViewModel
+@{
+    ViewData["Title"] = "Add Category";
+}
+
+<div class="container mt-5">
+    <div class="row justify-content-center">
+        <div class="col-md-6">
+            <h2 class="text-center mb-4" style="color: #00ffff;">ADD CATEGORY</h2>
+
+            <form asp-action="Create" method="post">
+                <input type="hidden" asp-for="EventID" />
+                <div asp-validation-summary="ModelOnly" class="text-danger mb-3" style="color: #ff0000 !important;"></div>
+
+                <div class="mb-3">
+                    <label asp-for="CategoryAge" class="form-label">Age Bracket (e.g. 18, 30, 50)</label>
+                    <input asp-for="CategoryAge" class="form-control" type="number" />
+                    <span asp-validation-for="CategoryAge" class="text-danger" style="color: #ff0000 !important;"></span>
+                </div>
+
+                <div class="mb-3">
+                    <label asp-for="CategoryDistance" class="form-label">Distance (e.g. 10KM, 5KM)</label>
+                    <input asp-for="CategoryDistance" class="form-control" />
+                    <span asp-validation-for="CategoryDistance" class="text-danger" style="color: #ff0000 !important;"></span>
+                </div>
+
+                <div class="d-flex justify-content-between mt-4">
+                    <button type="submit" class="btn btn-custom" style="border-color: #00ffff; color: #00ffff;">[ SAVE CATEGORY ]</button>
+                    <a asp-action="Index" asp-route-id="@Model.EventID" class="btn btn-custom" style="border-color: #ff0000; color: #ff0000;">[ CANCEL ]</a>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
