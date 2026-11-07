@@ -1,0 +1,66 @@
+﻿@{
+    ViewData["Title"] = "Event Details";
+    var ev = ViewBag.Event as RaceDay.MVC.ViewModels.EventViewModel;
+    var categories = ViewBag.Categories as IEnumerable<RaceDay.MVC.ViewModels.CategoryViewModel>;
+}
+
+<div class="container mt-5">
+    <div class="card p-4" style="border: 2px solid #00ffff; background-color: #151b4a;">
+        <h1 style="color: #00ffff; font-size: 2.5rem;">@ev.EventName</h1>
+        <h4 class="mb-4">@ev.EventDistance - @ev.EventType</h4>
+
+        <p><strong>Date:</strong> @ev.EventDate.ToString("dd MMM yyyy")</p>
+        <p><strong>Location:</strong> @ev.EventLocation</p>
+        <p class="mt-3" style="font-size: 1.2rem;">@ev.EventDescription</p>
+
+        <hr style="border-color: #008b8b;" />
+
+        <h3 class="mt-4 mb-3">Available Categories</h3>
+
+        @if (categories == null || !categories.Any())
+        {
+            <p class="text-warning">No categories available yet.</p>
+        }
+        else
+        {
+            @if (Context.Session.GetString("UserRole") == "Participant")
+            {
+                <form asp-controller="Enrollments" asp-action="Enroll" method="post">
+                    <input type="hidden" name="EventID" value="@ev.EventID" />
+
+                    <div class="row align-items-end">
+                        <div class="col-md-6 mb-3">
+                            <label class="form-label">Select Category</label>
+                            <select name="CategoryID" class="form-select" required>
+                                <option value="">-- Choose a category --</option>
+                                @foreach (var cat in categories)
+                                {
+                                    <option value="@cat.CategoryID">Age @cat.CategoryAge - @cat.CategoryDistance</option>
+                                }
+                            </select>
+                        </div>
+                        <div class="col-md-6 mb-3">
+                            <button type="submit" class="btn btn-custom w-100" style="background-color: #008b8b !important; color: white !important;">[ ENROL NOW ]</button>
+                        </div>
+                    </div>
+                </form>
+            }
+            else if (Context.Session.GetString("UserRole") == null)
+            {
+                <div class="alert alert-warning" style="background-color: #0b1035; border-color: #ffcc00; color: #ffcc00;">
+                    You must <a asp-controller="Auth" asp-action="Login" style="color: #00ffff;">login</a> as a Participant to enrol.
+                </div>
+
+                <ul class="list-group mt-3">
+                    @foreach (var cat in categories)
+                    {
+                        <li class="list-group-item bg-transparent text-white border-info">Age @cat.CategoryAge - @cat.CategoryDistance</li>
+                    }
+                </ul>
+            }
+        }
+        <div class="mt-4">
+            <a asp-controller="Home" asp-action="Index" class="btn btn-custom">[ BACK ]</a>
+        </div>
+    </div>
+</div>
