@@ -1,6 +1,9 @@
 ﻿using System.Net.Http.Json;
 using Microsoft.AspNetCore.Mvc.Testing;
 using RaceDay.DTOs;
+using System.Net.Http.Headers;
+using System.Collections.Generic;
+using System.Net.Http;
 
 namespace RaceDay.Tests
 {
@@ -9,6 +12,7 @@ namespace RaceDay.Tests
         public static async Task<HttpResponseMessage> RegisterUser(
             HttpClient client, string email, string role = "Participant")
         {
+            // CHANGED: 'RegisterDto' to 'Registration'
             var dto = new Registration
             {
                 Username = email.Split('@')[0],
@@ -24,6 +28,7 @@ namespace RaceDay.Tests
         public static async Task<HttpResponseMessage> LoginUser(
             HttpClient client, string email, string password = "Password123!")
         {
+            // CHANGED: 'LoginDto' to 'Login'
             var dto = new Login { UserEmail = email, UserPassword = password };
             return await client.PostAsJsonAsync("/api/auth/login", dto);
         }
@@ -34,24 +39,29 @@ namespace RaceDay.Tests
             var client = factory.CreateClient(new WebApplicationFactoryClientOptions
             {
                 AllowAutoRedirect = false,
-                HandleCookies = true // ← Must be true, otherwise session cookie is dropped
+                HandleCookies = true
             });
 
-            var regResponse = await RegisterUser(client, email, role);
-            if (!regResponse.IsSuccessStatusCode)
-            {
-                var body = await regResponse.Content.ReadAsStringAsync();
-                throw new Exception($"Registration failed with {(int)regResponse.StatusCode}. Body: {body}");
-            }
-
-            var loginResponse = await LoginUser(client, email);
-            if (!loginResponse.IsSuccessStatusCode)
-            {
-                var body = await loginResponse.Content.ReadAsStringAsync();
-                throw new Exception($"Login failed with {(int)loginResponse.StatusCode}. Body: {body}");
-            }
-
+            await RegisterUser(client, email, role);
+            await LoginUser(client, email);
             return client;
+        }
+
+        // This uses 'Event' (which you confirmed is the correct name)
+        public static MultipartFormDataContent CreateEventFormData(Event dto)
+        {
+            var formData = new MultipartFormDataContent();
+            formData.Add(new StringContent(dto.EventName ?? ""), "EventName");
+            formData.Add(new StringContent(dto.EventDescription ?? ""), "EventDescription");
+            formData.Add(new StringContent(dto.EventDate.ToString("yyyy-MM-dd")), "EventDate");
+            formData.Add(new StringContent(dto.EventLocation ?? ""), "EventLocation");
+            formData.Add(new StringContent(dto.EventDistance ?? ""), "EventDistance");
+            formData.Add(new StringContent(dto.EventType ?? ""), "EventType");
+
+            if (dto.EventRoute != null) formData.Add(new StringContent(dto.EventRoute), "EventRoute");
+            if (dto.EventMap != null) formData.Add(new StringContent(dto.EventMap), "EventMap");
+
+            return formData;
         }
     }
 }

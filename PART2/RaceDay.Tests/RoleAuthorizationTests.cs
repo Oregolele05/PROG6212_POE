@@ -23,7 +23,11 @@ namespace RaceDay.Tests
                 EventDistance = "10KM",
                 EventType = "Run"
             };
-            var response = await client.PostAsJsonAsync("/api/events", eventDto);
+
+            // CHANGED: Use multipart form data
+            var formData = TestHelpers.CreateEventFormData(eventDto);
+            var response = await client.PostAsync("/api/events", formData);
+
             Assert.Equal(HttpStatusCode.Forbidden, response.StatusCode);
         }
 
@@ -40,7 +44,11 @@ namespace RaceDay.Tests
                 EventDistance = "10KM",
                 EventType = "Run"
             };
-            var response = await client.PostAsJsonAsync("/api/events", eventDto);
+
+            // CHANGED: Use multipart form data
+            var formData = TestHelpers.CreateEventFormData(eventDto);
+            var response = await client.PostAsync("/api/events", formData);
+
             Assert.Equal(HttpStatusCode.Unauthorized, response.StatusCode);
         }
 
@@ -48,6 +56,7 @@ namespace RaceDay.Tests
         public async Task Enroll_AsOrganiser_Returns403()
         {
             var client = await TestHelpers.CreateLoggedInClient(_factory, "org2@test.com", "Organiser");
+            // Enrollment DTO is fine as JSON
             var enrollDto = new Enrollment { EventID = 1, CategoryID = 1 };
             var response = await client.PostAsJsonAsync("/api/enrolments", enrollDto);
             Assert.Equal(HttpStatusCode.Forbidden, response.StatusCode);

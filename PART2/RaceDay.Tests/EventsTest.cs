@@ -1,7 +1,6 @@
 ﻿using System.Net;
 using System.Net.Http.Json;
 using RaceDay.DTOs;
-using Xunit;
 
 namespace RaceDay.Tests
 {
@@ -16,21 +15,23 @@ namespace RaceDay.Tests
         {
             var client = await TestHelpers.CreateLoggedInClient(_factory, "orgEvent@test.com", "Organiser");
 
+            // CHANGED TO 'Event'
             var eventDto = new Event
             {
                 EventName = "Cape Town Marathon",
                 EventDescription = "Annual marathon",
-                EventDate = DateTime.Now.AddDays(14),  // ← DateTime now
+                EventDate = DateTime.Now.AddDays(14),
                 EventLocation = "Cape Town",
                 EventDistance = "42KM",
                 EventType = "Run"
             };
 
-            var response = await client.PostAsJsonAsync("/api/events", eventDto);
-            var body = await response.Content.ReadAsStringAsync();
+            var formData = TestHelpers.CreateEventFormData(eventDto);
+            var response = await client.PostAsync("/api/events", formData);
 
             if (response.StatusCode != HttpStatusCode.Created)
             {
+                var body = await response.Content.ReadAsStringAsync();
                 throw new Exception($"Expected 201 but got {(int)response.StatusCode}. Body: {body}");
             }
         }
