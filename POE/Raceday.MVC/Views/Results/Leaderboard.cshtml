@@ -1,0 +1,44 @@
+﻿@{
+    ViewData["Title"] = "Leaderboard";
+    var leaderboard = ViewBag.Leaderboard as IEnumerable<RaceDay.MVC.ViewModels.LeaderboardViewModel>;
+}
+
+<div class="container mt-5">
+    <div class="text-center mb-5">
+        <h1 style="color: #00ffff;">RACE DAY RESULTS</h1>
+        <p class="lead">Leaderboard for Event #@ViewBag.EventID</p>
+    </div>
+
+    @if (leaderboard == null || !leaderboard.Any())
+    {
+        <div class="text-center mt-5"><h3>No results published for this event yet.</h3></div>
+    }
+    else
+    {
+        <div class="table-responsive">
+            <table class="table table-custom table-bordered">
+                <thead>
+                    <tr>
+                        <th>Position</th>
+                        <th>Participant Name</th>
+                        <th>Finish Time</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (var item in leaderboard)
+                    {
+                        <tr>
+                            <td><strong>#@item.ParticipantPosition</strong></td>
+                            <td>@item.ParticipantName</td>
+                            <td>@item.ParticipantTime.ToString(@"hh\:mm\:ss")</td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        </div>
+    }
+
+    <div class="mt-4 text-center">
+        <a asp-controller="Home" asp-action="Index" class="btn btn-custom">[ BACK TO HOME ]</a>
+    </div>
+</div>

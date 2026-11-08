@@ -1,0 +1,41 @@
+﻿@{
+    ViewData["Title"] = "My Results";
+    var results = ViewBag.Results as IEnumerable<RaceDay.MVC.ViewModels.MyResultViewModel>;
+}
+
+<div class="container mt-5">
+    <h1 class="mb-4" style="color: #00ffff;">MY RACE HISTORY</h1>
+
+    @if (results == null || !results.Any())
+    {
+        <div class="text-center mt-5"><h3>You haven't completed any races yet.</h3></div>
+    }
+    else
+    {
+        <div class="table-responsive">
+            <table class="table table-custom table-bordered">
+                <thead>
+                    <tr>
+                        <th>Event Name</th>
+                        <th>Date</th>
+                        <th>Location</th>
+                        <th>Finish Time</th>
+                        <th>Position</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (var item in results)
+                    {
+                        <tr>
+                            <td>@item.EventName</td>
+                            <td>@item.EventDate.ToString("dd MMM yyyy")</td>
+                            <td>@item.EventLocation</td>
+                            <td>@item.ParticipantTime.ToString(@"hh\:mm\:ss")</td>
+                            <td><strong>@item.ParticipantPosition</strong></td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        </div>
+    }
+</div>

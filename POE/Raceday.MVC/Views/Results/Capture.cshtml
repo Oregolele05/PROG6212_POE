@@ -1,0 +1,41 @@
+﻿@model RaceDay.MVC.ViewModels.CaptureResultViewModel
+@{
+    ViewData["Title"] = "Capture Result";
+}
+
+<div class="container mt-5">
+    <div class="row justify-content-center">
+        <div class="col-md-6">
+            <h2 class="text-center mb-4" style="color: #00ffff;">CAPTURE RESULT</h2>
+
+            <form asp-action="Capture" method="post">
+                <input type="hidden" asp-for="EventID" />
+                <div asp-validation-summary="ModelOnly" class="text-danger mb-3" style="color: #ff0000 !important;"></div>
+
+                <div class="mb-3">
+                    <label asp-for="ParticipantID" class="form-label">Participant ID</label>
+                    <input asp-for="ParticipantID" class="form-control" type="number" placeholder="e.g. 1" />
+                    <span asp-validation-for="ParticipantID" class="text-danger" style="color: #ff0000 !important;"></span>
+                    <small class="text-muted">Check the Enrolments roster to find their ID.</small>
+                </div>
+
+                <div class="mb-3">
+                    <label asp-for="ParticipantTime" class="form-label">Finish Time (HH:MM:SS)</label>
+                    <input asp-for="ParticipantTime" class="form-control" type="time" step="1" />
+                    <span asp-validation-for="ParticipantTime" class="text-danger" style="color: #ff0000 !important;"></span>
+                </div>
+
+                <div class="mb-3">
+                    <label asp-for="ParticipantPosition" class="form-label">Finishing Position</label>
+                    <input asp-for="ParticipantPosition" class="form-control" placeholder="e.g. 1" />
+                    <span asp-validation-for="ParticipantPosition" class="text-danger" style="color: #ff0000 !important;"></span>
+                </div>
+
+                <div class="d-flex justify-content-between mt-4">
+                    <button type="submit" class="btn btn-custom" style="border-color: #00ffff; color: #00ffff;">[ SAVE RESULT ]</button>
+                    <a asp-controller="Events" asp-action="Index" class="btn btn-custom" style="border-color: #ff0000; color: #ff0000;">[ CANCEL ]</a>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>

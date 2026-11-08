@@ -1,4 +1,4 @@
-﻿@model IEnumerable<Raceday.MVC.ViewModels.EventViewModel>
+﻿@model IEnumerable<RaceDay.MVC.ViewModels.EventViewModel>
 @{
     ViewData["Title"] = "Home";
 }
@@ -6,7 +6,9 @@
 <div class="container mt-5">
     @if (!Model.Any())
     {
-        <div class="text-center text-white mt-5"><h2>No events found. Check back later!</h2></div>
+        <div class="text-center text-white mt-5">
+            <h2>No events found. Check back later!</h2>
+        </div>
     }
     else
     {
@@ -14,27 +16,34 @@
         @foreach (var ev in Model)
         {
             <div class="featured-wrapper">
-                <div class="featured-header">[ @(isFirst ? "FEATURED RACES" : "UPCOMING RACES") ]</div>
+                <div class="featured-header">
+                    [ @(isFirst ? "FEATURED RACES" : "UPCOMING RACES") ]
+                </div>
                 <div class="featured-body">
                     <div class="featured-title">@ev.EventName @ev.EventDistance</div>
+
                     <div class="featured-details">
                         @ev.EventDate.ToString("dd MMM yyyy").ToUpper() - @ev.EventLocation<br />
-                        Type: @ev.EventType<br /> Registration Open
+                        Type: @ev.EventType<br />
+                        Registration Open
                     </div>
-                    <div class="d-flex justify-content-between mt-4">
-                        @if (Context.Session.GetString("UserRole") == "Participant")
-                        {
-                            <a href="/Enrollments/Enroll/@ev.EventID" class="btn btn-banner-dark">[ REGISTER NOW ]</a>
-                        }
-                        else
-                        {
 
-                            <div></div>
-                        }
-                        <a href="/Events/Details/@ev.EventID" class="btn btn-banner-light">[ VIEW EVENT DETAILS ]</a>
+                    <div class="d-flex justify-content-between mt-4 flex-wrap gap-2">
+                        <div>
+                            @if (Context.Session.GetString("UserRole") == "Participant")
+                            {
+                                <a href="/Enrollments/Enroll/@ev.EventID" class="btn btn-banner-dark">[ REGISTER NOW ]</a>
+                            }
+                        </div>
+
+                        <div class="d-flex gap-2">
+                            <a href="/Results/Leaderboard/@ev.EventID" class="btn btn-banner-light" style="border-color: #00ffff; color: #00ffff;">[ VIEW RESULTS ]</a>
+                            <a href="/Events/Details/@ev.EventID" class="btn btn-banner-light">[ VIEW EVENT DETAILS ]</a>
+                        </div>
                     </div>
                 </div>
             </div>
+
             isFirst = false;
         }
     }
