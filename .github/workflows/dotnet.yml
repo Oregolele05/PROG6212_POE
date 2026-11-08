@@ -18,6 +18,7 @@ jobs:
       with:
         dotnet-version: '8.0.x'
         
+    # --- Build & Test API ---
     - name: Restore dependencies (API)
       run: dotnet restore
       working-directory: ./PART2/RaceDay
@@ -29,7 +30,8 @@ jobs:
     - name: Test (API)
       run: dotnet test --no-build --verbosity normal
       working-directory: ./PART2/RaceDay.Tests
-
+      
+    # --- Build MVC App ---
     - name: Restore dependencies (MVC)
       run: dotnet restore
       working-directory: ./POE/RaceDay.MVC
