@@ -12,7 +12,7 @@ namespace RaceDay.MVC.ViewModels
         public string EventDistance { get; set; }
         public string EventType { get; set; }
         public string? EventRoute { get; set; }
-        public string? EventMap { get; set; }
+        public string? EventImageUrl { get; set; }
 
     }
 
@@ -33,5 +33,6 @@ namespace RaceDay.MVC.ViewModels
         public string EventType { get; set; }
         public string? EventRoute { get; set; }
         public string? EventMap { get; set; }
+        public IFormFile? ImageFile { get; set; }
     }
 }

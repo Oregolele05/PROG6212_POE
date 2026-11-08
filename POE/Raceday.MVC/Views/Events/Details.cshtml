@@ -6,6 +6,10 @@
 
 <div class="container mt-5">
     <div class="card p-4" style="border: 2px solid #00ffff; background-color: #151b4a;">
+        @if (!string.IsNullOrEmpty(ev.EventImageUrl))
+        {
+            <img src="@ev.EventImageUrl" alt="Event Banner" class="img-fluid rounded mb-4" style="max-height: 400px; width: 100%; object-fit: cover; border: 2px solid #008b8b;" />
+        }
         <h1 style="color: #00ffff; font-size: 2.5rem;">@ev.EventName</h1>
         <h4 class="mb-4">@ev.EventDistance - @ev.EventType</h4>
 

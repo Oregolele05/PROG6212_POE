@@ -1,5 +1,4 @@
-﻿using System.Net.Http.Headers;
-using System.Text;
+﻿using System.Text;
 using System.Text.Json;
 
 namespace RaceDay.MVC.Services
@@ -15,7 +14,6 @@ namespace RaceDay.MVC.Services
 
         private HttpClient GetClient() => _httpClientFactory.CreateClient("RaceDayApi");
 
-        // Generic GET
         public async Task<T?> GetAsync<T>(string endpoint)
         {
             var client = GetClient();
@@ -28,7 +26,6 @@ namespace RaceDay.MVC.Services
             return default;
         }
 
-        // Generic POST
         public async Task<HttpResponseMessage> PostAsync<T>(string endpoint, T data)
         {
             var client = GetClient();
@@ -37,7 +34,6 @@ namespace RaceDay.MVC.Services
             return await client.PostAsync(endpoint, content);
         }
 
-        // Generic PUT
         public async Task<HttpResponseMessage> PutAsync<T>(string endpoint, T data)
         {
             var client = GetClient();
@@ -46,14 +42,13 @@ namespace RaceDay.MVC.Services
             return await client.PutAsync(endpoint, content);
         }
 
-        // Generic DELETE
         public async Task<HttpResponseMessage> DeleteAsync(string endpoint)
         {
             var client = GetClient();
             return await client.DeleteAsync(endpoint);
         }
 
-        // POST for Multipart (For File Uploads later)
+        // ONLY ONE INSTANCE OF THIS METHOD SHOULD EXIST
         public async Task<HttpResponseMessage> PostFormAsync(string endpoint, MultipartFormDataContent content)
         {
             var client = GetClient();
