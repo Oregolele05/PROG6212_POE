@@ -1,0 +1,55 @@
+﻿@model RaceDay.MVC.ViewModels.UserProfileViewModel
+@{
+    ViewData["Title"] = "Settings";
+}
+
+<div class="container mt-5">
+    <div class="row justify-content-center">
+        <div class="col-md-6">
+            <h2 class="text-center mb-4" style="color: #00ffff;">ACCOUNT DETAILS</h2>
+
+            @if (TempData["SuccessMessage"] != null)
+            {
+                <div class="alert alert-success" style="background-color: #008b8b; color: white;">@TempData["SuccessMessage"]</div>
+            }
+
+            <form asp-action="Profile" method="post">
+                <div asp-validation-summary="ModelOnly" class="text-danger mb-3" style="color: #ff0000 !important;"></div>
+
+                <div class="mb-3">
+                    <label asp-for="UserRole" class="form-label">Role</label>
+                    <input asp-for="UserRole" class="form-control" readonly style="background-color: #1a2259;" />
+                </div>
+
+                <div class="mb-3">
+                    <label asp-for="Username" class="form-label">Username</label>
+                    <input asp-for="Username" class="form-control" />
+                    <span asp-validation-for="Username" class="text-danger" style="color: #ff0000 !important;"></span>
+                </div>
+
+                <div class="mb-3">
+                    <label asp-for="UserEmail" class="form-label">Email Address</label>
+                    <input asp-for="UserEmail" class="form-control" />
+                    <span asp-validation-for="UserEmail" class="text-danger" style="color: #ff0000 !important;"></span>
+                </div>
+
+                <div class="mb-3">
+                    <label asp-for="Name" class="form-label">Full Name</label>
+                    <input asp-for="Name" class="form-control" />
+                    <span asp-validation-for="Name" class="text-danger" style="color: #ff0000 !important;"></span>
+                </div>
+
+                <div class="mb-3">
+                    <label asp-for="Phone" class="form-label">Phone Number</label>
+                    <input asp-for="Phone" class="form-control" />
+                    <span asp-validation-for="Phone" class="text-danger" style="color: #ff0000 !important;"></span>
+                </div>
+
+                <div class="d-flex justify-content-between mt-4">
+                    <button type="submit" class="btn btn-custom" style="border-color: #00ffff; color: #00ffff;">[ CONFIRM CHANGES ]</button>
+                    <a asp-controller="Home" asp-action="Index" class="btn btn-custom" style="border-color: #ff0000; color: #ff0000;">[ CANCEL ]</a>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>

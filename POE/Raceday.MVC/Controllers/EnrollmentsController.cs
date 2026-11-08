@@ -45,5 +45,20 @@ namespace RaceDay.MVC.Controllers
             TempData["SuccessMessage"] = "Enrolment cancelled.";
             return RedirectToAction("MyEnrollments");
         }
+
+        // GET: /Enrollments/EventRoster/5 (Organiser Only)
+        public async Task<IActionResult> EventRoster(int id)
+        {
+            if (HttpContext.Session.GetString("UserRole") != "Organiser")
+                return RedirectToAction("Login", "Auth");
+
+            // Fetch the roster from the API
+            var roster = await _apiService.GetAsync<IEnumerable<OrganiserRosterViewModel>>($"api/events/{id}/enrolments");
+
+            ViewBag.EventID = id;
+            ViewBag.Roster = roster ?? new List<OrganiserRosterViewModel>();
+
+            return View();
+        }
     }
 }

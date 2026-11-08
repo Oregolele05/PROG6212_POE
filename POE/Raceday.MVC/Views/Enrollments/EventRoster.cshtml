@@ -1,0 +1,42 @@
+﻿@{
+    ViewData["Title"] = "Event Roster";
+    var roster = ViewBag.Roster as IEnumerable<RaceDay.MVC.ViewModels.OrganiserRosterViewModel>;
+}
+
+<div class="container mt-5">
+    <div class="d-flex justify-content-between align-items-center mb-4">
+        <h2 style="color: #00ffff;">PARTICIPANT ROSTER</h2>
+        <a asp-controller="Events" asp-action="Index" class="btn btn-custom">[ BACK TO DASHBOARD ]</a>
+    </div>
+
+    @if (roster == null || !roster.Any())
+    {
+        <div class="text-center mt-5">
+            <h3>No participants have enrolled in this event yet.</h3>
+        </div>
+    }
+    else
+    {
+        <table class="table table-custom table-bordered">
+            <thead>
+                <tr>
+                    <th>Participant Name</th>
+                    <th>Email</th>
+                    <th>Category</th>
+                    <th>Enrolment Date</th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var item in roster)
+                {
+                    <tr>
+                        <td>@item.ParticipantName</td>
+                        <td>@item.ParticipantEmail</td>
+                        <td>Age @item.CategoryAge - @item.CategoryDistance</td>
+                        <td>@item.EnrollmentDate.ToString("dd MMM yyyy")</td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    }
+</div>
