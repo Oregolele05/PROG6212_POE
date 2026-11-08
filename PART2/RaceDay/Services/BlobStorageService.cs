@@ -19,7 +19,7 @@ namespace RaceDay.Services
             var blobContainerClient = blobServiceClient.GetBlobContainerClient(_containerName);
 
             // Ensure the container exists
-            await blobContainerClient.CreateIfNotExistsAsync(PublicAccessType.Blob);
+            await blobContainerClient.CreateIfNotExistsAsync(PublicAccessType.None);
 
             // Generate a unique file name so images don't overwrite each other
             string fileName = Guid.NewGuid().ToString() + Path.GetExtension(file.FileName);

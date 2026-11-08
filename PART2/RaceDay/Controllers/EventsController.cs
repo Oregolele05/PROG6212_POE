@@ -4,6 +4,7 @@ using RaceDay.Data;
 using RaceDay.DTOs;
 using RaceDay.Filters;
 using RaceDay.Models;
+using RaceDay.Services;
 
 namespace RaceDay.Controllers
 {
@@ -13,11 +14,13 @@ namespace RaceDay.Controllers
     {
         private readonly RaceDayDbContext _context;
         private readonly ILogger<EventsController> _logger;
+        private readonly BlobStorageService _blobService; 
 
-        public EventsController(RaceDayDbContext context, ILogger<EventsController> logger)
+        public EventsController(RaceDayDbContext context, ILogger<EventsController> logger, BlobStorageService blobService)
         {
             _context = context;
             _logger = logger;
+            _blobService = blobService;
         }
 
         // GET: api/events
@@ -53,10 +56,11 @@ namespace RaceDay.Controllers
             }
         }
 
-        // POST: api/events (Organiser Only) — with debug output
+        // POST: api/events (Organiser Only)
         [HttpPost]
+        [Consumes("multipart/form-data")]
         [AuthorizeRole("Organiser")]
-        public async Task<IActionResult> CreateEvent([FromBody] Event request)
+        public async Task<IActionResult> CreateEvent([FromForm] Event request, IFormFile? imageFile)
         {
             try
             {
@@ -68,6 +72,29 @@ namespace RaceDay.Controllers
                 if (organiser == null)
                     return BadRequest(new { message = "Organiser profile not found.", userId = userId });
 
+                string? imageUrl = null;
+
+                // --- AZURE BLOB UPLOAD LOGIC ---
+                if (imageFile != null && imageFile.Length > 0)
+                {
+                    _logger.LogInformation("API RECEIVED THE IMAGE FILE. Uploading to Azure...");
+                    try
+                    {
+                        imageUrl = await _blobService.UploadFileAsync(imageFile);
+                        _logger.LogInformation($"AZURE UPLOAD SUCCESSFUL. URL: {imageUrl}");
+                    }
+                    catch (Exception ex)
+                    {
+                        _logger.LogError($"AZURE UPLOAD FAILED: {ex.Message}");
+                        return StatusCode(500, new { message = "Azure upload failed", error = ex.Message });
+                    }
+                }
+                else
+                {
+                    _logger.LogWarning("API DID NOT RECEIVE AN IMAGE FILE (imageFile is null or empty).");
+                }
+                // -------------------------------
+
                 var newEvent = new EventGig
                 {
                     eventName = request.EventName,
@@ -78,6 +105,7 @@ namespace RaceDay.Controllers
                     eventType = request.EventType,
                     eventRoute = request.EventRoute,
                     eventMap = request.EventMap,
+                    EventImageUrl = imageUrl,
                     organiserID = organiser.organiserID
                 };
 
@@ -89,17 +117,13 @@ namespace RaceDay.Controllers
             catch (Exception ex)
             {
                 _logger.LogError(ex, "Error creating event.");
-                // ---- TEMPORARY DEBUG ----
                 return StatusCode(500, new
                 {
                     message = "An internal server error occurred.",
                     errorType = ex.GetType().FullName,
                     errorMessage = ex.Message,
-                    innerError = ex.InnerException?.Message,
-                    innerInnerError = ex.InnerException?.InnerException?.Message,
-                    stackTrace = ex.StackTrace
+                    innerError = ex.InnerException?.Message
                 });
-                // ---- END DEBUG ----
             }
         }
 
@@ -127,7 +151,7 @@ namespace RaceDay.Controllers
             }
             catch (Exception ex)
             {
-                _logger.LogError(ex, "Error creating event.");
+                _logger.LogError(ex, "Error updating event.");
                 return StatusCode(500, new { message = "An internal server error occurred." });
             }
         }
