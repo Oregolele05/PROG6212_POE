@@ -15,7 +15,6 @@ namespace RaceDay.Tests
         {
             var client = await TestHelpers.CreateLoggedInClient(_factory, "orgEvent@test.com", "Organiser");
 
-            // CHANGED TO 'Event'
             var eventDto = new Event
             {
                 EventName = "Cape Town Marathon",
@@ -26,6 +25,7 @@ namespace RaceDay.Tests
                 EventType = "Run"
             };
 
+            // FIX: Use multipart form data
             var formData = TestHelpers.CreateEventFormData(eventDto);
             var response = await client.PostAsync("/api/events", formData);
 

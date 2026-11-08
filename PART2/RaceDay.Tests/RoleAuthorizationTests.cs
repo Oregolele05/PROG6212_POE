@@ -24,7 +24,7 @@ namespace RaceDay.Tests
                 EventType = "Run"
             };
 
-            // CHANGED: Use multipart form data
+            // FIX: Use multipart form data
             var formData = TestHelpers.CreateEventFormData(eventDto);
             var response = await client.PostAsync("/api/events", formData);
 
@@ -45,7 +45,7 @@ namespace RaceDay.Tests
                 EventType = "Run"
             };
 
-            // CHANGED: Use multipart form data
+            // FIX: Use multipart form data
             var formData = TestHelpers.CreateEventFormData(eventDto);
             var response = await client.PostAsync("/api/events", formData);
 
