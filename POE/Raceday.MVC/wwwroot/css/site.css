@@ -115,3 +115,33 @@ h1, h2, h3, h4, h5 {
             background-color: #00a8a8;
             color: #000000 !important;
         }
+
+/* --- Themed Tables --- */
+.table-custom {
+    color: #ffffff !important;
+    border-color: #00ffff !important; /* Bright cyan border */
+    background-color: #151b4a !important;
+}
+
+    .table-custom th {
+        background-color: #008b8b !important; /* Teal header background */
+        color: #00ffff !important; /* Bright cyan text for headers */
+        font-weight: bold;
+        text-transform: uppercase;
+        letter-spacing: 1px;
+        border-bottom: 2px solid #00ffff !important;
+    }
+
+    .table-custom td {
+        background-color: #0b1035 !important; /* Dark background for rows */
+        color: #ffffff !important; /* Pure white text for data */
+        vertical-align: middle;
+        border-color: #008b8b !important;
+    }
+
+    /* Make the row glow slightly when hovered */
+    .table-custom tbody tr:hover td {
+        background-color: #1a2259 !important;
+        color: #00ffff !important; /* Text turns cyan on hover */
+        transition: all 0.2s ease;
+    }

@@ -77,5 +77,27 @@ namespace RaceDay.MVC.Controllers
             ModelState.AddModelError("", $"API Error: {errorContent}");
             return View(model);
         }
+
+        // POST: /Events/Delete/5
+        [HttpPost]
+        public async Task<IActionResult> Delete(int id)
+        {
+            if (HttpContext.Session.GetString("UserRole") != "Organiser")
+                return RedirectToAction("Login", "Auth");
+
+            // Call the API to delete the event
+            var response = await _apiService.DeleteAsync($"api/events/{id}");
+
+            if (response.IsSuccessStatusCode)
+            {
+                TempData["SuccessMessage"] = "Event deleted successfully!";
+            }
+            else
+            {
+                TempData["ErrorMessage"] = "Failed to delete event. It may have active enrolments or results.";
+            }
+
+            return RedirectToAction("Index");
+        }
     }
 }

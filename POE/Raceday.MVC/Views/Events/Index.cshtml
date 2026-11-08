@@ -9,10 +9,16 @@
         <a asp-action="Create" class="btn btn-custom">[ CREATE NEW EVENT ]</a>
     </div>
 
-    @if (TempData["SuccessMessage"] != null)
+       @if (TempData["SuccessMessage"] != null)
     {
         <div class="alert alert-success" style="background-color: #008b8b; border-color: #00ffff; color: white;">
             @TempData["SuccessMessage"]
+        </div>
+    }
+    @if (TempData["ErrorMessage"] != null)
+    {
+        <div class="alert alert-danger" style="background-color: #ff0000; border-color: #ff0000; color: white;">
+            @TempData["ErrorMessage"]
         </div>
     }
 
@@ -53,7 +59,9 @@
 
                                     <a asp-controller="Results" asp-action="Leaderboard" asp-route-id="@item.EventID" class="btn btn-sm btn-custom" style="border-color: #00ffff; color: #00ffff;">Leaderboard</a>
 
-                                    <a asp-action="Delete" asp-route-id="@item.EventID" class="btn btn-sm btn-custom" style="border-color: #ff0000; color: #ff0000;">Delete</a>
+                                    <form asp-action="Delete" asp-route-id="@item.EventID" method="post" onsubmit="return confirm('Are you sure you want to delete this event? This action cannot be undone.');" class="d-inline">
+                                        <button type="submit" class="btn btn-sm btn-custom" style="border-color: #ff0000; color: #ff0000;">Delete</button>
+                                    </form>
                                 </div>
                             </td>
                         </tr>
