@@ -35,13 +35,15 @@ builder.Services.AddSwaggerGen(options =>
 builder.Services.AddScoped<RaceDay.Services.BlobStorageService>();
 
 var app = builder.Build();
-// Automatically create/update the database in Docker
-using (var scope = app.Services.CreateScope())
+// Automatically create/update the database in Docker, but SKIP during testing
+if (!app.Environment.IsEnvironment("Testing"))
 {
-    var db = scope.ServiceProvider.GetRequiredService<RaceDayDbContext>();
-    db.Database.Migrate();
+    using (var scope = app.Services.CreateScope())
+    {
+        var db = scope.ServiceProvider.GetRequiredService<RaceDayDbContext>();
+        db.Database.Migrate();
+    }
 }
-
 if (app.Environment.IsDevelopment())
 {
     app.UseSwagger();
