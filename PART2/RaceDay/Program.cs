@@ -32,6 +32,8 @@ builder.Services.AddSwaggerGen(options =>
     options.IncludeXmlComments(Path.Combine(AppContext.BaseDirectory, xmlFilename));
 });
 
+builder.Services.AddScoped<RaceDay.Services.BlobStorageService>();
+
 var app = builder.Build();
 
 if (app.Environment.IsDevelopment())

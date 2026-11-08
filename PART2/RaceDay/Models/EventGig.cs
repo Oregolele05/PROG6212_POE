@@ -23,6 +23,8 @@ namespace RaceDay.Models
         public string? eventRoute { get; set; }
         [Required]
         public string? eventMap { get; set; }
+        public string? EventImageUrl { get; set; }
+
         //get the foreign key from Organiser
         public int organiserID { get; set; }
         [ForeignKey("organiserID")]

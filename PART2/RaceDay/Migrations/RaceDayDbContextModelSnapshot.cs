@@ -86,6 +86,9 @@ namespace RaceDay.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("eventID"));
 
+                    b.Property<string>("EventImageUrl")
+                        .HasColumnType("nvarchar(max)");
+
                     b.Property<DateTime>("eventDate")
                         .HasColumnType("datetime2");
 
@@ -102,7 +105,6 @@ namespace RaceDay.Migrations
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("eventMap")
-                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("eventName")
@@ -110,7 +112,6 @@ namespace RaceDay.Migrations
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("eventRoute")
-                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("eventType")

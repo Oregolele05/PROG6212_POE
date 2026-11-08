@@ -12,5 +12,7 @@ namespace RaceDay.DTOs
         [Required] public string EventType { get; set; } // Run, Walk, Cycle
         public string? EventRoute { get; set; }
         public string? EventMap { get; set; }
+        public string? EventImageUrl { get; set; }
     }
+
 }
