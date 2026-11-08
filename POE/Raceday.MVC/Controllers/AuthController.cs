@@ -77,7 +77,8 @@ namespace RaceDay.MVC.Controllers
                 return RedirectToAction("Login");
             }
 
-            ModelState.AddModelError("", "Registration failed. Email may already exist.");
+            var errorContent = await response.Content.ReadAsStringAsync();
+            ModelState.AddModelError("", $"API Error: {errorContent}");
             return View(model);
         }
 

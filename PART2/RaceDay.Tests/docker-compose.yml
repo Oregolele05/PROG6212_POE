@@ -1,0 +1,25 @@
+version: '3.8'
+
+services:
+  raceday-api:
+    image: raceday-api
+    build:
+      context: ./PART2/RaceDay
+      dockerfile: Dockerfile
+    ports:
+      - "7266:8080"
+    environment:
+      - ASPNETCORE_ENVIRONMENT=Development
+
+  raceday-mvc:
+    image: raceday-mvc
+    build:
+      context: ./POE/Raceday.MVC
+      dockerfile: Dockerfile
+    ports:
+      - "7201:8080"
+    environment:
+      - ASPNETCORE_ENVIRONMENT=Development
+      - ApiBaseUrl=http://raceday-api:8080/
+    depends_on:
+      - raceday-api

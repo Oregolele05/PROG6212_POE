@@ -21,8 +21,20 @@ builder.Services.AddSingleton<System.Net.CookieContainer>();
 // 4. Configure HttpClient to talk to the API
 builder.Services.AddHttpClient("RaceDayApi", client =>
 {
-    client.BaseAddress = new Uri("https://localhost:7266/"); // Make sure this matches your API port!
+    // If running in Docker, use the service name. Otherwise, use localhost.
+    var apiUrl = Environment.GetEnvironmentVariable("ApiBaseUrl") ?? "https://localhost:7266/";
+    client.BaseAddress = new Uri(apiUrl);
 })
+.ConfigurePrimaryHttpMessageHandler(serviceProvider =>
+{
+    return new HttpClientHandler
+    {
+        UseCookies = true,
+        CookieContainer = serviceProvider.GetRequiredService<System.Net.CookieContainer>()
+    };
+})
+
+
 .ConfigurePrimaryHttpMessageHandler(serviceProvider =>
 {
     return new HttpClientHandler
