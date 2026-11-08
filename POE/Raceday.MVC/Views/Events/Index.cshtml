@@ -43,15 +43,15 @@
                             <td>@item.EventDate.ToString("dd MMM yyyy")</td>
                             <td>@item.EventLocation</td>
                             <td>@item.EventType</td>
-                            <td>
+                            <td style="min-width: 300px;">
                                 <div class="d-flex flex-wrap gap-2">
-                                    <a asp-action="Edit" asp-route-id="@item.EventID" class="btn btn-sm btn-custom" style="border-color: #ffffff; color: #ffffff;">Edit</a>
-
                                     <a asp-controller="Categories" asp-action="Index" asp-route-id="@item.EventID" class="btn btn-sm btn-custom" style="border-color: #ffcc00; color: #ffcc00;">Categories</a>
 
-                                    <a asp-controller="Results" asp-action="Capture" asp-route-id="@item.EventID" class="btn btn-sm btn-custom" style="border-color: #00ff00; color: #00ff00;">Capture Results</a>
+                                    <a asp-controller="Enrollments" asp-action="EventRoster" asp-route-id="@item.EventID" class="btn btn-sm btn-custom" style="border-color: #ff00ff; color: #ff00ff;">Roster</a>
 
-                                    <a asp-controller="Results" asp-action="Leaderboard" asp-route-id="@item.EventID" class="btn btn-sm btn-custom" style="border-color: #00ffff; color: #00ffff;">View Leaderboard</a>
+                                    <a asp-controller="Results" asp-action="Capture" asp-route-id="@item.EventID" class="btn btn-sm btn-custom" style="border-color: #00ff00; color: #00ff00;">Capture Result</a>
+
+                                    <a asp-controller="Results" asp-action="Leaderboard" asp-route-id="@item.EventID" class="btn btn-sm btn-custom" style="border-color: #00ffff; color: #00ffff;">Leaderboard</a>
 
                                     <a asp-action="Delete" asp-route-id="@item.EventID" class="btn btn-sm btn-custom" style="border-color: #ff0000; color: #ff0000;">Delete</a>
                                 </div>

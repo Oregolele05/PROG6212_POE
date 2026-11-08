@@ -15,18 +15,21 @@ builder.Services.AddSession(options =>
     options.Cookie.IsEssential = true;
 });
 
-// 3. Configure HttpClient to talk to the API
-// IMPORTANT: Replace the BaseAddress with the URL of your RUNNING API from Part 2
+// 3. REGISTER THE COOKIE CONTAINER AS A SINGLETON
+builder.Services.AddSingleton<System.Net.CookieContainer>();
+
+// 4. Configure HttpClient to talk to the API
 builder.Services.AddHttpClient("RaceDayApi", client =>
 {
-    client.BaseAddress = new Uri("https://localhost:7266/"); // Check your API's port number!
+    client.BaseAddress = new Uri("https://localhost:7266/"); // Make sure this matches your API port!
 })
-.ConfigurePrimaryHttpMessageHandler(() =>
+.ConfigurePrimaryHttpMessageHandler(serviceProvider =>
 {
     return new HttpClientHandler
     {
         UseCookies = true,
-        CookieContainer = new System.Net.CookieContainer()
+        // USE THE SINGLETON COOKIE CONTAINER HERE
+        CookieContainer = serviceProvider.GetRequiredService<System.Net.CookieContainer>()
     };
 });
 
@@ -44,7 +47,7 @@ app.UseStaticFiles();
 
 app.UseRouting();
 
-// 4. Use Session before Authorization
+// 5. Use Session before Authorization
 app.UseSession();
 app.UseAuthorization();
 

@@ -44,13 +44,31 @@ namespace RaceDay.MVC.Controllers
             if (HttpContext.Session.GetString("UserRole") != "Organiser") return RedirectToAction("Login", "Auth");
             if (!ModelState.IsValid) return View(model);
 
-            var response = await _apiService.PostAsync("api/events", model);
+            // Ensure the payload matches exactly what the API expects
+            var payload = new
+            {
+                EventName = model.EventName,
+                EventDescription = model.EventDescription,
+                EventDate = model.EventDate,
+                EventLocation = model.EventLocation,
+                EventDistance = model.EventDistance,
+                EventType = model.EventType,
+                EventRoute = model.EventRoute,
+                EventMap = model.EventMap
+            };
+
+            var response = await _apiService.PostAsync("api/events", payload);
+
             if (response.IsSuccessStatusCode)
             {
                 TempData["SuccessMessage"] = "Event created successfully!";
                 return RedirectToAction("Index");
             }
-            ModelState.AddModelError("", "Failed to create event.");
+
+            // READ THE EXACT ERROR FROM THE API
+            var errorContent = await response.Content.ReadAsStringAsync();
+            ModelState.AddModelError("", $"API Error: {errorContent}");
+
             return View(model);
         }
     }

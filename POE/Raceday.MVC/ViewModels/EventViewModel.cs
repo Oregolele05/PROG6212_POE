@@ -11,6 +11,9 @@ namespace RaceDay.MVC.ViewModels
         public string EventLocation { get; set; }
         public string EventDistance { get; set; }
         public string EventType { get; set; }
+        public string? EventRoute { get; set; }
+        public string? EventMap { get; set; }
+
     }
 
     public class CreateEventViewModel
@@ -29,5 +32,6 @@ namespace RaceDay.MVC.ViewModels
         [Required] 
         public string EventType { get; set; }
         public string? EventRoute { get; set; }
+        public string? EventMap { get; set; }
     }
 }
