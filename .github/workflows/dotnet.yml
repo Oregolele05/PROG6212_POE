@@ -34,8 +34,8 @@ jobs:
     # --- Build MVC App ---
     - name: Restore dependencies (MVC)
       run: dotnet restore
-      working-directory: ./POE/RaceDay.MVC
+      working-directory: ./POE/Raceday.MVC
       
     - name: Build (MVC)
       run: dotnet build --no-restore
-      working-directory: ./POE/RaceDay.MVC
+      working-directory: ./POE/Raceday.MVC
