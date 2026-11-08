@@ -2,32 +2,44 @@
 using Microsoft.AspNetCore.Mvc.Testing;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.DependencyInjection.Extensions;
 using RaceDay.Data;
+using RaceDay.Services;
 
 namespace RaceDay.Tests
 {
-    /// <summary>
-    /// Custom WebApplicationFactory that replaces the SQL Server database with an
-    /// isolated In-Memory database so tests don't affect real data.
-    /// </summary>
     public class RaceDayWebApplicationFactory : WebApplicationFactory<Program>
     {
         private readonly string _dbName = "TestDb_" + Guid.NewGuid();
 
         protected override void ConfigureWebHost(IWebHostBuilder builder)
         {
+            // Tell the app we are in testing mode
             builder.UseEnvironment("Testing");
+
             builder.ConfigureServices(services =>
             {
-                // Remove the real DbContext registration
+                // 1. Remove the real DbContext registration
                 var descriptor = services.SingleOrDefault(
                     d => d.ServiceType == typeof(DbContextOptions<RaceDayDbContext>));
                 if (descriptor != null) services.Remove(descriptor);
 
-                // Register a fresh In-Memory database
+                // 2. Register a fresh In-Memory database
                 services.AddDbContext<RaceDayDbContext>(options =>
                 {
                     options.UseInMemoryDatabase(_dbName);
+                });
+
+                // 3. REMOVE THE AZURE BLOB SERVICE (This is the fix)
+                var blobDescriptor = services.SingleOrDefault(
+                    d => d.ServiceType == typeof(BlobStorageService));
+                if (blobDescriptor != null) services.Remove(blobDescriptor);
+
+                // 4. Add a dummy/mock Blob Service so the API doesn't crash
+                // 4. Add a dummy Blob Service
+                services.AddScoped<BlobStorageService>(sp =>
+                {
+                    return new BlobStorageService(null!); // Pass null configuration
                 });
             });
         }
