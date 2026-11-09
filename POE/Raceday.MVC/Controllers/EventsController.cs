@@ -77,6 +77,64 @@ namespace RaceDay.MVC.Controllers
             ModelState.AddModelError("", $"API Error: {errorContent}");
             return View(model);
         }
+        // GET: /Events/Edit/5
+        public async Task<IActionResult> Edit(int id)
+        {
+            if (HttpContext.Session.GetString("UserRole") != "Organiser") return RedirectToAction("Login", "Auth");
+
+            // Fetch the event from the API
+            var eventData = await _apiService.GetAsync<Event>($"api/events/{id}");
+            if (eventData == null) return NotFound();
+
+            // Map the fetched data to the ViewModel
+            var model = new CreateEventViewModel
+            {
+                EventName = eventData.EventName,
+                EventDescription = eventData.EventDescription,
+                EventDate = eventData.EventDate,
+                EventLocation = eventData.EventLocation,
+                EventDistance = eventData.EventDistance,
+                EventType = eventData.EventType,
+                EventRoute = eventData.EventRoute,
+                EventMap = eventData.EventMap
+            };
+
+            ViewBag.EventID = id;
+            return View(model);
+        }
+
+        // POST: /Events/Edit/5
+        [HttpPost]
+        public async Task<IActionResult> Edit(int id, CreateEventViewModel model)
+        {
+            if (HttpContext.Session.GetString("UserRole") != "Organiser") return RedirectToAction("Login", "Auth");
+            if (!ModelState.IsValid) return View(model);
+
+            // Send the updated data to the API using PutAsync (JSON)
+            var payload = new
+            {
+                EventName = model.EventName,
+                EventDescription = model.EventDescription,
+                EventDate = model.EventDate,
+                EventLocation = model.EventLocation,
+                EventDistance = model.EventDistance,
+                EventType = model.EventType,
+                EventRoute = model.EventRoute,
+                EventMap = model.EventMap
+            };
+
+            var response = await _apiService.PutAsync($"api/events/{id}", payload);
+
+            if (response.IsSuccessStatusCode)
+            {
+                TempData["SuccessMessage"] = "Event updated successfully!";
+                return RedirectToAction("Index");
+            }
+
+            var error = await response.Content.ReadAsStringAsync();
+            ModelState.AddModelError("", $"API Error: {error}");
+            return View(model);
+        }
 
         // POST: /Events/Delete/5
         [HttpPost]
