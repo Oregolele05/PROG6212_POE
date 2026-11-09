@@ -83,7 +83,7 @@ namespace RaceDay.MVC.Controllers
             if (HttpContext.Session.GetString("UserRole") != "Organiser") return RedirectToAction("Login", "Auth");
 
             // Fetch the event from the API
-            var eventData = await _apiService.GetAsync<Event>($"api/events/{id}");
+            var eventData = await _apiService.GetAsync<EventViewModel>($"api/events/{id}");
             if (eventData == null) return NotFound();
 
             // Map the fetched data to the ViewModel
